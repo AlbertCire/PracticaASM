@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PracticaASM</string>
+    <string name="email">sandra.adams@email.com</string>
+    <string name="password">123456</string>
 </resources>
