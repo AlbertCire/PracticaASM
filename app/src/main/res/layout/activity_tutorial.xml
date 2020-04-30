@@ -9,7 +9,7 @@
     tools:context=".TutorialActivity">
 
     <ImageView
-        android:id="@+id/image_help_1"
+        android:id="@+id/image_tutorial"
         android:layout_width="304dp"
         android:layout_height="291dp"
         android:layout_marginStart="28dp"
@@ -23,13 +23,13 @@
         app:srcCompat="@drawable/help_1" />
 
     <TextView
-        android:id="@+id/tutorial_message_1"
+        android:id="@+id/tutorial_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="430dp"
         android:layout_marginBottom="161dp"
         android:fontFamily="@font/roboto_medium"
-        android:text="Be in touch"
+        android:text="@string/tutorial_text_1"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/skipTutorial"
         android:layout_width="240dp"
         android:layout_height="40dp"
         android:background="@drawable/skip_button"
@@ -52,6 +52,8 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="360dp"
         android:layout_height="29dp"
+        android:foregroundTint="#3F51B5"
+        android:progressTint="#3F51B5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
