@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">PracticaASM</string>
+    <string name="tutorial_text_1">Be in touch</string>
+    <string name="tutorial_text_2">Networking</string>
+    <string name="tutorial_text_3">Learn</string>
     <string name="email">sandra.adams@email.com</string>
     <string name="password">123456</string>
 </resources>
