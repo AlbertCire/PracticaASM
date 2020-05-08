@@ -5,4 +5,6 @@
     <string name="tutorial_text_3">Learn</string>
     <string name="email">sandra.adams@email.com</string>
     <string name="password">123456</string>
+    <string name="navigation_drawer_open">News</string>
+    <string name="navigation_drawer_close">Close menu</string>
 </resources>

@@ -18,7 +18,7 @@
         <activity android:name=".TutorialActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".ErrorLoginActivity"/>
-
+        <activity android:name=".MainActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"
