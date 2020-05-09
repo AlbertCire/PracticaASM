@@ -24,7 +24,7 @@ public class LoginActivity extends Activity {
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(email_text.getText().equals("sandra.adams@email.com") && password_text.getText().equals("123456")){
+                if(email_text.getText().toString().trim().equals(R.string.user_email) && password_text.getText().toString().trim().equals(R.string.user_password)){
                     startActivity(new Intent(
                             getApplicationContext(),
                             SplashActivity.class) );    //en comptes de SplashActivity, indicar l'activity del menu amb user

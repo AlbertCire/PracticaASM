@@ -11,7 +11,7 @@
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginBottom="76dp"
-        android:text="TRY AGAIN"
+        android:text="@string/try_again"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,20 +43,11 @@
         tools:layout_editor_absoluteX="31dp">
 
         <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_thin"
-            android:text="Please, try again."
-            android:textColor="#7C7C7C"
-            android:textSize="18sp" />
-
-        <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
-            android:text="UPS... couldn't Sign In"
+            android:text="@string/error_text_1"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#7C7C7C"
             android:textSize="18sp" />
@@ -66,8 +57,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_thin"
-            android:text="Your username and password don't match."
+            android:text="@string/error_text_2"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#7C7C7C"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_thin"
+            android:text="@string/error_text_3"
             android:textColor="#7C7C7C"
             android:textSize="18sp" />
     </LinearLayout>
