@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textPersonName"
             android:textAlignment="center"
             android:textColor="#7C7C7C"
@@ -36,7 +36,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="0dp"
             android:ems="10"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:textAlignment="center"
             android:textColor="#7C7C7C"
@@ -62,7 +62,7 @@
             android:layout_height="50dp"
             android:backgroundTint="#00BCD4"
             android:fontFamily="@font/roboto_medium"
-            android:text="SIGN IN"
+            android:text="@string/sign_in"
             android:textColor="#FFFFFF" />
 
         <Button
@@ -70,7 +70,7 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:backgroundTint="#9C9C9C"
-            android:text="ANONYMOUS USER"
+            android:text="@string/anonymous_user"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 
