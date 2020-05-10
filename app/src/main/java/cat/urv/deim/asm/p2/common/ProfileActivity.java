@@ -14,15 +14,14 @@ public class ProfileActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Button TryAgainButton = (Button) findViewById(R.id.TryAgainButton);
-        ImageView logo = findViewById(R.id.errorLogInImageView);
+        Button GoBack = findViewById(R.id.profile_toolbar);
 
-        TryAgainButton.setOnClickListener(new View.OnClickListener() {
+        GoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(
                         getApplicationContext(),
-                        LoginActivity.class) );
+                        MainActivity.class) );
             }
         });
 
