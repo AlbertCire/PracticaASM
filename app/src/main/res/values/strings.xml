@@ -7,4 +7,13 @@
     <string name="password">123456</string>
     <string name="navigation_drawer_open">News</string>
     <string name="navigation_drawer_close">Close menu</string>
+    <string name="main_title">News</string>
+    <string name="menu_title">Dev Community</string>
+    <string name="menu_news">News</string>
+    <string name="menu_articles">Articles</string>
+    <string name="menu_events">Events</string>
+    <string name="menu_calendar">Calendar</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_faqs">FAQS</string>
+    <string name="menu_settings">Settings</string>
 </resources>
