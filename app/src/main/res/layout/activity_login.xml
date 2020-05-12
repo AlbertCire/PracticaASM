@@ -66,7 +66,7 @@
             android:textColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/continueAnonymouslyButton"
+            android:id="@+id/anonymousUserButton"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:backgroundTint="#9C9C9C"

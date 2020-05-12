@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">PracticaASM</string>
-    <string name="tutorial_text_1">Be in touch</string>
+    <string name="tutorial_text_1">Connecta amb altres</string>
     <string name="tutorial_text_2">Networking</string>
-    <string name="tutorial_text_3">Learn</string>
+    <string name="tutorial_text_3">Aprèn</string>
     <string name="user_email">sandra.adams@email.com</string>
     <string name="user_password">123456</string>
     <string name="navigation_drawer_open">Notícies</string>
@@ -17,4 +17,13 @@
     <string name="password">Contrassenya</string>
     <string name="user_profile">Perfil d\'usuari</string>
     <string name="continue_anonymously">CONTINUAR ANÒNIM</string>
+    <string name="main_title">Notícies</string>
+    <string name="menu_title">Dev Community</string>
+    <string name="menu_news">Notícies</string>
+    <string name="menu_articles">Articles</string>
+    <string name="menu_events">Esdeveniments</string>
+    <string name="menu_calendar">Calendari</string>
+    <string name="menu_profile">Perfil</string>
+    <string name="menu_faqs">FAQS</string>
+    <string name="menu_settings">Configuració</string>
 </resources>

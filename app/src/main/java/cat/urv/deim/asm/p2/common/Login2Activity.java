@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class Login2Activity extends AppCompatActivity {
-    Button button;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +20,7 @@ public class Login2Activity extends AppCompatActivity {
         final TextView email_text = (TextView) findViewById(R.id.loginEmail);
         final TextView password_text = (TextView) findViewById(R.id.loginPassword);
         Button sign_in_button = (Button) findViewById(R.id.SigninButton);
-        Button anonymous_user_button = (Button) findViewById(R.id.continueAnonymouslyButton);
+        Button continue_anonymously_button = (Button) findViewById(R.id.anonymousUserButton);
         ImageView logo = findViewById(R.id.loginLogo);
         ImageButton arrowBack = findViewById(R.id.back_button2);
 
@@ -37,7 +36,8 @@ public class Login2Activity extends AppCompatActivity {
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(email_text.getText().toString().trim().equals(R.string.user_email) && password_text.getText().toString().trim().equals(R.string.user_password)){
+                if(email_text.getText().toString().trim().equals(getString(R.string.user_email)) &&
+                        password_text.getText().toString().trim().equals(getString(R.string.user_password))) {
                     startActivity(new Intent(
                             getApplicationContext(),
                             SplashActivity.class) );    //en comptes de SplashActivity, indicar l'activity del menu amb user
@@ -49,7 +49,7 @@ public class Login2Activity extends AppCompatActivity {
             }
         });
 
-        anonymous_user_button.setOnClickListener(new View.OnClickListener() {
+        continue_anonymously_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(

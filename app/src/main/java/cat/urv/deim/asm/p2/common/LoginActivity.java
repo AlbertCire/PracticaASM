@@ -24,8 +24,8 @@ public class LoginActivity extends Activity {
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (email_text.getText().equals(getString(R.string.email)) &&
-                        password_text.getText().equals(getString(R.string.password))) {
+                if (email_text.getText().toString().trim().equals(getString(R.string.user_email)) &&
+                        password_text.getText().toString().trim().equals(getString(R.string.user_password))) {
                     startActivity(new Intent(
                             getApplicationContext(),
                             MainActivity.class) );
@@ -46,4 +46,6 @@ public class LoginActivity extends Activity {
             }
         });
     }
+
+
 }

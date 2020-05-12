@@ -122,20 +122,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected (MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id. nav_news) {
+        if (id == R.id.nav_news) {
         } else if (id == R.id.nav_articles) {
         } else if (id == R.id.nav_events) {
         } else if (id == R.id.nav_calendar) {
         } else if (id == R.id.nav_profile) {
             // Only functional menu option at the moment
-            /*startActivity(new Intent(
+            startActivity(new Intent(
                     getApplicationContext(),
-                    ProfileActivity.class));*/
+                    SplashActivity.class));
         } else if (id == R.id.nav_faqs) {
         } else if (id == R.id.nav_settings) {
         }
-        DrawerLayout drawer = findViewById(R.id.drawer_layout) ;
-        drawer.closeDrawer(GravityCompat.START) ;
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">PracticaASM</string>
-    <string name="tutorial_text_1">Be in touch</string>
+    <string name="tutorial_text_1">Conecta con otros</string>
     <string name="tutorial_text_2">Networking</string>
-    <string name="tutorial_text_3">Learn</string>
+    <string name="tutorial_text_3">Aprende</string>
     <string name="user_email">sandra.adams@email.com</string>
     <string name="user_password">123456</string>
     <string name="navigation_drawer_open">Noticias</string>
@@ -12,9 +12,18 @@
     <string name="error_text_3">Por favor, inténtalo de nuevo.</string>
     <string name="try_again">INTÉNTALO DE NUEVO</string>
     <string name="anonymous_user">USUARIO ANÓNIMO</string>
-    <string name="sign_in">ENTRAR</string>
+    <string name="sign_in">ENTRA</string>
     <string name="email">Correo</string>
     <string name="password">Contraseña</string>
     <string name="user_profile">Perfil de usuario</string>
     <string name="continue_anonymously">CONTINUAR ANÓNIMO</string>
+    <string name="main_title">Noticias</string>
+    <string name="menu_title">Dev Community</string>
+    <string name="menu_news">Noticias</string>
+    <string name="menu_articles">Artículos</string>
+    <string name="menu_events">Eventos</string>
+    <string name="menu_calendar">Calendario</string>
+    <string name="menu_profile">Perfil</string>
+    <string name="menu_faqs">FAQS</string>
+    <string name="menu_settings">Configuración</string>
 </resources>
