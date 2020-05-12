@@ -16,4 +16,5 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="user_profile">User profile</string>
+    <string name="continue_anonymously">CONTINUE ANONYMOUSLY</string>
 </resources>

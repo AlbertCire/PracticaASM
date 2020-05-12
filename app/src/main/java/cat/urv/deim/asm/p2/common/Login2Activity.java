@@ -1,25 +1,38 @@
 package cat.urv.deim.asm.p2.common;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class LoginActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
 
-    @Override
+
+public class Login2Activity extends AppCompatActivity {
+    Button button;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_2);
 
         final TextView email_text = (TextView) findViewById(R.id.loginEmail);
         final TextView password_text = (TextView) findViewById(R.id.loginPassword);
         Button sign_in_button = (Button) findViewById(R.id.SigninButton);
         Button anonymous_user_button = (Button) findViewById(R.id.continueAnonymouslyButton);
         ImageView logo = findViewById(R.id.loginLogo);
+        ImageButton arrowBack = findViewById(R.id.back_button2);
+
+        arrowBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(
+                        getApplicationContext(),
+                        SplashActivity.class) );    //canviar splash per main
+            }
+        });
 
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,4 +58,5 @@ public class LoginActivity extends Activity {
             }
         });
     }
+
 }
