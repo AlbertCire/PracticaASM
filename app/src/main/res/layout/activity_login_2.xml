@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/login2_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00BCD4"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleMarginStart="50dp" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -70,7 +83,7 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:backgroundTint="#9C9C9C"
-            android:text="@string/anonymous_user"
+            android:text="@string/continue_anonymously"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 
@@ -78,14 +91,25 @@
         android:id="@+id/loginLogo"
         android:layout_width="190dp"
         android:layout_height="191dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/logo"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login2_toolbar"
         app:srcCompat="@drawable/logo"
         tools:srcCompat="@drawable/logo" />
+
+    <ImageButton
+        android:id="@+id/back_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/abc_vector_test"
+        app:layout_constraintBottom_toBottomOf="@+id/login2_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/abc_vector_test" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

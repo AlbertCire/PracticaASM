@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">PracticaASM</string>
+    <string name="tutorial_text_1">Be in touch</string>
+    <string name="tutorial_text_2">Networking</string>
+    <string name="tutorial_text_3">Learn</string>
+    <string name="user_email">sandra.adams@email.com</string>
+    <string name="user_password">123456</string>
+    <string name="navigation_drawer_open">Noticias</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
+    <string name="error_text_1">UPS... no puedes entrar.</string>
+    <string name="error_text_2">Tu usuario y contraseña no coinciden.</string>
+    <string name="error_text_3">Por favor, inténtalo de nuevo.</string>
+    <string name="try_again">INTÉNTALO DE NUEVO</string>
+    <string name="anonymous_user">USUARIO ANÓNIMO</string>
+    <string name="sign_in">ENTRAR</string>
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="user_profile">Perfil de usuario</string>
+    <string name="continue_anonymously">CONTINUAR ANÓNIMO</string>
+</resources>

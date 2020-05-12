@@ -8,15 +8,14 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:layout_width="450dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="83dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginTop="100dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginLogo">
+        app:layout_constraintHorizontal_bias="0.627"
+        app:layout_constraintStart_toEndOf="@+id/loginLogo"
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/loginEmail"
@@ -49,26 +48,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:layout_marginBottom="120dp"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:layout_editor_absoluteX="-16dp">
+        app:layout_constraintVertical_bias="0.0">
 
         <Button
             android:id="@+id/SigninButton"
             android:layout_width="300dp"
             android:layout_height="50dp"
+            android:layout_marginRight="10sp"
             android:backgroundTint="#00BCD4"
             android:fontFamily="@font/roboto_medium"
             android:text="@string/sign_in"
             android:textColor="#FFFFFF" />
 
         <Button
-            android:id="@+id/continueAnonymouslyButton"
+            android:id="@+id/anonymousUserButton"
             android:layout_width="300dp"
             android:layout_height="50dp"
+            android:layout_marginLeft="10sp"
             android:backgroundTint="#9C9C9C"
             android:text="@string/anonymous_user"
             android:textColor="#FFFFFF" />
@@ -78,11 +81,11 @@
         android:id="@+id/loginLogo"
         android:layout_width="190dp"
         android:layout_height="191dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/logo"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.094"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo"

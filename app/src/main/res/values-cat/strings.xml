@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">PracticaASM</string>
+    <string name="tutorial_text_1">Be in touch</string>
+    <string name="tutorial_text_2">Networking</string>
+    <string name="tutorial_text_3">Learn</string>
+    <string name="user_email">sandra.adams@email.com</string>
+    <string name="user_password">123456</string>
+    <string name="navigation_drawer_open">Notícies</string>
+    <string name="navigation_drawer_close">Tancar menú</string>
+    <string name="error_text_1">UPS... no pots entrar.</string>
+    <string name="error_text_2">El teu usuari i contrassenya no coincideixen.</string>
+    <string name="error_text_3">Si us plau, intenta-ho de nou.</string>
+    <string name="try_again">INTENTA-HO DE NOU</string>
+    <string name="anonymous_user">USUARI ANÒNIM</string>
+    <string name="sign_in">ENTRA</string>
+    <string name="email">Correu</string>
+    <string name="password">Contrassenya</string>
+    <string name="user_profile">Perfil d\'usuari</string>
+    <string name="continue_anonymously">CONTINUAR ANÒNIM</string>
+</resources>
