@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/menu_top">
+        <item
+            android:id="@+id/nav_news"
+            android:enabled="true"
+            android:icon="@drawable/bookmarks_black"
+            android:title="@string/menu_news"
+            android:visible="true" />
+        <item
+            android:id="@+id/nav_articles"
+            android:enabled="true"
+            android:icon="@drawable/people_black"
+            android:title="@string/menu_articles"
+            android:visible="true" />
+        <item
+            android:id="@+id/nav_events"
+            android:enabled="true"
+            android:icon="@drawable/favorite_black"
+            android:title="@string/menu_events"
+            android:visible="true" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:enabled="true"
+            android:icon="@drawable/schedule_black"
+            android:title="@string/menu_calendar"
+            android:visible="true" />
+    </group>
+
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/menu_middle">
+        <item
+            android:id="@+id/nav_profile"
+            android:enabled="true"
+            android:icon="@drawable/person_black"
+            android:title="@string/menu_profile"
+            android:visible="true" />
+    </group>
+
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/menu_bottom">
+        <item
+            android:id="@+id/nav_faqs"
+            android:enabled="true"
+            android:icon="@android:drawable/ic_menu_info_details"
+            android:title="@string/menu_faqs"
+            android:visible="true" />
+        <item
+            android:id="@+id/nav_settings"
+            android:enabled="true"
+            android:icon="@drawable/settings_black"
+            android:title="@string/menu_settings"
+            android:visible="true" />
+    </group>
+
+</menu>

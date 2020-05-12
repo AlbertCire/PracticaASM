@@ -18,20 +18,21 @@ public class LoginActivity extends Activity {
         final TextView email_text = (TextView) findViewById(R.id.loginEmail);
         final TextView password_text = (TextView) findViewById(R.id.loginPassword);
         Button sign_in_button = (Button) findViewById(R.id.SigninButton);
-        Button anonymous_user_button = (Button) findViewById(R.id.continueAnonymouslyButton);
+        Button anonymous_user_button = (Button) findViewById(R.id.anonymousUserButton);
         ImageView logo = findViewById(R.id.loginLogo);
 
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(email_text.getText().toString().trim().equals(R.string.user_email) && password_text.getText().toString().trim().equals(R.string.user_password)){
+                if (email_text.getText().equals(getString(R.string.email)) &&
+                        password_text.getText().equals(getString(R.string.password))) {
                     startActivity(new Intent(
                             getApplicationContext(),
-                            SplashActivity.class) );    //en comptes de SplashActivity, indicar l'activity del menu amb user
-                }else{
+                            MainActivity.class) );
+                } else {
                     startActivity(new Intent(
                             getApplicationContext(),
-                            ErrorLoginActivity.class) );    //en comptes de SplashActivity, indicar l'activity de Error Log In
+                            ErrorLoginActivity.class) );
                 }
             }
         });
@@ -41,7 +42,7 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 startActivity(new Intent(
                         getApplicationContext(),
-                        SplashActivity.class) );    //en comptes de SplashActivity, indicar l'activity del menu sense user
+                        MainActivity.class) );
             }
         });
     }
