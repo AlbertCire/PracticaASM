@@ -21,11 +21,9 @@ public class ProfileActivity extends Activity {
             public void onClick(View v) {
                 startActivity(new Intent(
                         getApplicationContext(),
-                        SplashActivity.class) );    //canviar splash per mainActivity
+                        MainActivity.class) );
             }
         });
-
-
     }
 
 }

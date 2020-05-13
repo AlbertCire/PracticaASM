@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00BCD4"
+    tools:context=".TutorialActivity">
+
+    <ImageView
+        android:id="@+id/image_tutorial"
+        android:layout_width="304dp"
+        android:layout_height="291dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="115dp"
+        android:layout_marginBottom="235dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.33"
+        app:srcCompat="@drawable/help_1" />
+
+    <TextView
+        android:id="@+id/tutorial_text"
+        android:layout_width="253dp"
+        android:layout_height="74dp"
+        android:layout_marginTop="430dp"
+        android:layout_marginBottom="161dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/tutorial_text_1"
+        android:textColor="#FFFFFF"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.552"
+        app:layout_constraintStart_toEndOf="@+id/image_tutorial"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/skipTutorial"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="52dp"
+        android:background="@drawable/skip_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/progressBar"
+        app:layout_constraintTop_toBottomOf="@+id/image_tutorial"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="360dp"
+        android:layout_height="29dp"
+        android:foregroundTint="#3F51B5"
+        android:progressTint="#3F51B5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.102"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_tutorial"
+        app:layout_constraintVertical_bias="0.453" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

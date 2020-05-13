@@ -29,22 +29,23 @@ public class Login2Activity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(
                         getApplicationContext(),
-                        SplashActivity.class) );    //canviar splash per main
+                        MainActivity.class) );
             }
         });
 
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(email_text.getText().toString().trim().equals(getString(R.string.user_email)) &&
+                if (email_text.getText().toString().trim().equals(getString(R.string.user_email)) &&
                         password_text.getText().toString().trim().equals(getString(R.string.user_password))) {
+                    GlobalLoginClass.setLoginCorrect(true);
                     startActivity(new Intent(
                             getApplicationContext(),
-                            SplashActivity.class) );    //en comptes de SplashActivity, indicar l'activity del menu amb user
-                }else{
+                            MainActivity.class) );
+                } else {
                     startActivity(new Intent(
                             getApplicationContext(),
-                            ErrorLoginActivity.class) );    //en comptes de SplashActivity, indicar l'activity de Error Log In
+                            ErrorLoginActivity.class) );
                 }
             }
         });
@@ -52,9 +53,10 @@ public class Login2Activity extends AppCompatActivity {
         continue_anonymously_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GlobalLoginClass.setLoginCorrect(false);
                 startActivity(new Intent(
                         getApplicationContext(),
-                        SplashActivity.class) );    //en comptes de SplashActivity, indicar l'activity del menu sense user
+                        MainActivity.class) );
             }
         });
     }

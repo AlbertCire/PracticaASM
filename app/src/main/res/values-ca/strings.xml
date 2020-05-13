@@ -26,4 +26,6 @@
     <string name="menu_profile">Perfil</string>
     <string name="menu_faqs">FAQS</string>
     <string name="menu_settings">Configuració</string>
+    <string name="menu_favorites">Preferits</string>
+    <string name="menu_bookmarks">Marcadors</string>
 </resources>

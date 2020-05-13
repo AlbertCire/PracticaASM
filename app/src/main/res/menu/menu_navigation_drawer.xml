@@ -4,7 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    tools:showIn="navigation_view"
+    android:id="@+id/menu_nav_drawer">
 
     <group
         android:checkableBehavior="single"
@@ -44,6 +45,18 @@
             android:icon="@drawable/person_black"
             android:title="@string/menu_profile"
             android:visible="true" />
+        <item
+            android:id="@+id/nav_favorites"
+            android:enabled="true"
+            android:icon="@drawable/favorite_black"
+            android:title="@string/menu_favorites"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_bookmarks"
+            android:enabled="true"
+            android:icon="@drawable/bookmarks_black"
+            android:title="@string/menu_bookmarks"
+            android:visible="false" />
     </group>
 
     <group

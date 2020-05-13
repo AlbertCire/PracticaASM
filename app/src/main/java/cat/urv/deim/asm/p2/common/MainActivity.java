@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity
 
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
+    private NavigationView navigationView;
     private ImageView favIcon1, favIcon2, bookmarkIcon1, bookmarkIcon2;
     private boolean[] selectedIcons = {true, true, false, false};
 
@@ -94,6 +95,16 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
+        navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // Some icons only appear if the user has logged in
+        Menu menuNavigation = navigationView.getMenu();
+        MenuItem menuFavorites = menuNavigation.findItem(R.id.nav_favorites);
+        menuFavorites.setVisible(GlobalLoginClass.isLoginCorrect());
+        MenuItem menuBookmarks = menuNavigation.findItem(R.id.nav_bookmarks);
+        menuBookmarks.setVisible(GlobalLoginClass.isLoginCorrect());
     }
 
     // If user presses the "back" button, the menu is closed
@@ -128,9 +139,15 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_calendar) {
         } else if (id == R.id.nav_profile) {
             // Only functional menu option at the moment
-            startActivity(new Intent(
-                    getApplicationContext(),
-                    SplashActivity.class));
+            if (GlobalLoginClass.isLoginCorrect()) {
+                startActivity(new Intent(
+                        getApplicationContext(),
+                        ProfileActivity.class));
+            } else {
+                startActivity(new Intent(
+                        getApplicationContext(),
+                        Login2Activity.class));
+            }
         } else if (id == R.id.nav_faqs) {
         } else if (id == R.id.nav_settings) {
         }

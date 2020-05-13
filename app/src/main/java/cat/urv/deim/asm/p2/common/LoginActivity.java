@@ -26,6 +26,7 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 if (email_text.getText().toString().trim().equals(getString(R.string.user_email)) &&
                         password_text.getText().toString().trim().equals(getString(R.string.user_password))) {
+                    GlobalLoginClass.setLoginCorrect(true);
                     startActivity(new Intent(
                             getApplicationContext(),
                             MainActivity.class) );
@@ -40,6 +41,7 @@ public class LoginActivity extends Activity {
         anonymous_user_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GlobalLoginClass.setLoginCorrect(false);
                 startActivity(new Intent(
                         getApplicationContext(),
                         MainActivity.class) );
