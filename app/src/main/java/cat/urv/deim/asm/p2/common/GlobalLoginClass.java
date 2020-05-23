@@ -5,6 +5,15 @@ import android.app.Application;
 public class GlobalLoginClass extends Application {
     protected static boolean loginCorrect = false;  //Variable to know if the user is anonymous or registered
     protected static boolean showBackToMenu = false;    //Variable to know if it's our first login
+    protected static boolean tutorialSkipped = false;
+
+    public static boolean isTutorialSkipped() {
+        return tutorialSkipped;
+    }
+
+    public static void setTutorialSkipped(boolean tutorialSkipped) {
+        GlobalLoginClass.tutorialSkipped = tutorialSkipped;
+    }
 
     public static boolean isLoginCorrect() {
         return loginCorrect;

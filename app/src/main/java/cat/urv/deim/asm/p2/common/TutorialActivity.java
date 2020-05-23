@@ -45,6 +45,7 @@ public class TutorialActivity extends Activity {
             public void onClick(View v) {
                 currentTutorialScreen = NUM_TUTORIAL_SCREENS - 1;
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                GlobalLoginClass.setTutorialSkipped(true);
             }
         });
     }
@@ -94,7 +95,9 @@ public class TutorialActivity extends Activity {
             }, 3000);
         } else {
             currentTutorialScreen = NUM_TUTORIAL_SCREENS - 1;
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            if (!GlobalLoginClass.isTutorialSkipped()) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            }
         }
     }
 
