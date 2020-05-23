@@ -28,4 +28,8 @@
     <string name="menu_settings">Configuració</string>
     <string name="menu_favorites">Preferits</string>
     <string name="menu_bookmarks">Marcadors</string>
+    <string name="question_1">Pregunta 1</string>
+    <string name="question_2">Pregunta 2</string>
+    <string name="question_3">Pregunta 3</string>
+    <string name="question_4">Pregunta 4</string>
 </resources>

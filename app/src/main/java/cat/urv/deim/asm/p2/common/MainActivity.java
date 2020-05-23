@@ -149,6 +149,9 @@ public class MainActivity extends AppCompatActivity
                         Login2Activity.class));
             }
         } else if (id == R.id.nav_faqs) {
+            startActivity(new Intent(
+                    getApplicationContext(),
+                    FaqsActivity.class));
         } else if (id == R.id.nav_settings) {
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
