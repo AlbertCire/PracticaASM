@@ -27,6 +27,7 @@ public class LoginActivity extends Activity {
                 if (email_text.getText().toString().trim().equals(getString(R.string.user_email)) &&
                         password_text.getText().toString().trim().equals(getString(R.string.user_password))) {
                     GlobalLoginClass.setLoginCorrect(true);
+                    GlobalLoginClass.setShowBackToMenu(true);
                     startActivity(new Intent(
                             getApplicationContext(),
                             MainActivity.class) );
@@ -42,6 +43,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 GlobalLoginClass.setLoginCorrect(false);
+                GlobalLoginClass.setShowBackToMenu(true);
                 startActivity(new Intent(
                         getApplicationContext(),
                         MainActivity.class) );

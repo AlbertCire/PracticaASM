@@ -19,9 +19,15 @@ public class ErrorLoginActivity extends Activity {
         TryAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(
-                        getApplicationContext(),
-                        LoginActivity.class) );
+                if(GlobalLoginClass.isShowBackToMenu()) {
+                    startActivity(new Intent(
+                            getApplicationContext(),
+                            Login2Activity.class));
+                }else {
+                    startActivity(new Intent(
+                            getApplicationContext(),
+                            LoginActivity.class));
+                }
             }
         });
 
