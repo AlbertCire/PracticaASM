@@ -32,4 +32,5 @@
     <string name="question_2">Pregunta 2</string>
     <string name="question_3">Pregunta 3</string>
     <string name="question_4">Pregunta 4</string>
+    <string name="menu_event_detail">Detalls de l\'esdeveniment</string>
 </resources>

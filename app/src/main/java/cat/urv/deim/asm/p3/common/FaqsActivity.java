@@ -1,4 +1,7 @@
-package cat.urv.deim.asm.p2.common;
+package cat.urv.deim.asm.p3.common;
+
+import cat.urv.deim.asm.R;
+import cat.urv.deim.asm.p2.common.MainActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,9 +17,12 @@ public class FaqsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faqs);
 
+        /*
         TextView question1, question2, question3, question4;
         TextView extendAnswer1, extendAnswer2, extendAnswer3, extendAnswer4;
         TextView answer1, answer2, answer3, answer4;
+        */
+
         ImageButton arrowBack;
 
         // Configuring the back button in the toolbar
@@ -30,6 +36,7 @@ public class FaqsActivity extends Activity {
             }
         });
 
+        /*
         question1 = findViewById(R.id.question_1);
         question2 = findViewById(R.id.question_2);
         question3 = findViewById(R.id.question_3);
@@ -56,6 +63,7 @@ public class FaqsActivity extends Activity {
         extendAnswer2.setOnClickListener(new ExtendAnswerOnClickListener(extendAnswer2, answer2, extendAnswer2));
         extendAnswer3.setOnClickListener(new ExtendAnswerOnClickListener(extendAnswer3, answer3, extendAnswer3));
         extendAnswer4.setOnClickListener(new ExtendAnswerOnClickListener(extendAnswer4, answer4, extendAnswer4));
+        */
     }
 
     private class ExtendAnswerOnClickListener implements View.OnClickListener {

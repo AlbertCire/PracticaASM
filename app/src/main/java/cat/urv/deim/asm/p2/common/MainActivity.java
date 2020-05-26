@@ -16,6 +16,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import cat.urv.deim.asm.libraries.commanagerdc.providers.DataProvider;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -29,6 +31,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // We are extracting the info from JSON objects from the 'raw' folder using the abstraction
+        // class DataProvider in the module commanager. These data will be later used in Activities
+        DataProvider dataProvider = DataProvider.getInstance(
+                this.getApplicationContext(),
+                R.raw.faqs,R.raw.news,R.raw.articles,R.raw.events,R.raw.calendar);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
