@@ -7,15 +7,31 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class FaqsActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class FaqsActivity extends AppCompatActivity {
+
+    private ExpandableListView expLV;
+    private ExpLVAdapter adapter;
+    private ArrayList<String> questionList;
+    private Map<String, String> questionAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faqs);
+
+        expLV = (ExpandableListView) findViewById(R.id.exp_lv);
+        questionList = new ArrayList<>();
+        questionAnswer = new HashMap<>();
 
         /*
         TextView question1, question2, question3, question4;
@@ -35,6 +51,9 @@ public class FaqsActivity extends Activity {
                         MainActivity.class) );
             }
         });
+
+        //we call the method
+        updateData();
 
         /*
         question1 = findViewById(R.id.question_1);
@@ -83,5 +102,26 @@ public class FaqsActivity extends Activity {
                 symbolToChange.setText(">");
             }
         }
+    }
+
+    private void updateData(){
+        //we define the answers
+        String answer1 = "answer1";
+        String answer2 = "answer2";
+        String answer3 = "answer3";
+
+        //we add the questions to the ArrayList
+        questionList.add("Question1");
+        questionList.add("Question2");
+        questionList.add("Question3");
+
+        //we put the questions and the answers in the Map
+        questionAnswer.put(questionList.get(0), answer1);
+        questionAnswer.put(questionList.get(1), answer2);
+        questionAnswer.put(questionList.get(2), answer3);
+
+        adapter = new ExpLVAdapter(questionList, questionAnswer, this);
+        expLV.setAdapter(adapter);
+
     }
 }
