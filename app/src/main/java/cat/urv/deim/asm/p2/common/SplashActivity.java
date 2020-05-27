@@ -1,5 +1,6 @@
 package cat.urv.deim.asm.p2.common;
 
+import cat.urv.deim.asm.R;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
