@@ -8,16 +8,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
 import cat.urv.deim.asm.libraries.commanagerdc.providers.DataProvider;
+import cat.urv.deim.asm.p3.common.EventsFragment;
 import cat.urv.deim.asm.p3.common.FaqsActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private ImageView favIcon1, favIcon2, bookmarkIcon1, bookmarkIcon2;
     private boolean[] selectedIcons = {true, true, false, false};
+    //Fragment references
+    EventsFragment eventsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,14 @@ public class MainActivity extends AppCompatActivity
         favIcon2 = findViewById(R.id.fav_icon_2);
         bookmarkIcon1 = findViewById(R.id.bookmark_icon_1);
         bookmarkIcon2 = findViewById(R.id.bookmark_icon_2);
+
+        //Fragment references
+        eventsFragment = new EventsFragment();
+
+
+        //Fragment por defecto (en nuesro caso es EventsFragment)
+        //getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, eventsFragment).commit();
+
 
         // Listeners to change the icons when clicked
         favIcon1.setOnClickListener(new View.OnClickListener() {
@@ -136,10 +150,18 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected (MenuItem item) {
+        TextView mainTitle = findViewById(R.id.main_title);
+
         int id = item.getItemId();
         if (id == R.id.nav_news) {
         } else if (id == R.id.nav_articles) {
         } else if (id == R.id.nav_events) {
+            //Cambiamos el titulo
+            mainTitle.setText(R.string.menu_events);
+            //Sustituimos el fragment actual por el de Eventos
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, eventsFragment);
+            transaction.commit();
         } else if (id == R.id.nav_calendar) {
         } else if (id == R.id.nav_profile) {
             // Only functional menu option at the moment
