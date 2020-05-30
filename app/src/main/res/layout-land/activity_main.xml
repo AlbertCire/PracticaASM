@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/background_light">
 
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -65,9 +66,15 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
 
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/news_card_1"
-                android:layout_width="match_parent"
+                android:layout_width="375dp"
                 android:layout_height="180dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="20dp"
@@ -101,7 +108,7 @@
 
                             <TextView
                                 android:id="@+id/news_content_"
-                                android:layout_width="368dp"
+                                android:layout_width="166dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
                                 android:layout_marginBottom="10dp"
@@ -111,8 +118,8 @@
 
                         <ImageView
                             android:id="@+id/card_image_1"
-                            android:layout_width="207dp"
-                            android:layout_height="126dp"
+                            android:layout_width="160dp"
+                            android:layout_height="115dp"
                             app:srcCompat="@drawable/cafeteria" />
                     </TableRow>
 
@@ -147,7 +154,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/news_card_2"
-                android:layout_width="match_parent"
+                android:layout_width="375dp"
                 android:layout_height="180dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="20dp"
@@ -181,7 +188,7 @@
 
                             <TextView
                                 android:id="@+id/news_content_2"
-                                android:layout_width="368dp"
+                                android:layout_width="166dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
                                 android:layout_marginBottom="10dp"
@@ -192,8 +199,8 @@
 
                         <ImageView
                             android:id="@+id/card_image_2"
-                            android:layout_width="207dp"
-                            android:layout_height="126dp"
+                            android:layout_width="160dp"
+                            android:layout_height="115dp"
                             app:srcCompat="@drawable/cafeteria" />
 
                     </TableRow>
@@ -226,6 +233,7 @@
 
             </androidx.cardview.widget.CardView>
 
+
         </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView
@@ -238,7 +246,7 @@
             app:headerLayout="@layout/menu_navigation_header"
             app:itemIconTint="@color/cardview_dark_background"
             app:itemTextColor="@color/cardview_dark_background"
-            app:menu="@menu/menu_navigation_drawer"/>
+            app:menu="@menu/menu_navigation_drawer" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
