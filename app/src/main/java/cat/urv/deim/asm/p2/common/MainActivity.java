@@ -60,10 +60,6 @@ public class MainActivity extends AppCompatActivity
         eventsFragment = new EventsFragment();
 
 
-        //Fragment por defecto (en nuesro caso es EventsFragment)
-        //getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, eventsFragment).commit();
-
-
         // Listeners to change the icons when clicked
         favIcon1.setOnClickListener(new View.OnClickListener() {
             @Override
