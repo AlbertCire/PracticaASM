@@ -3,10 +3,20 @@ package cat.urv.deim.asm.p3.common;
 import cat.urv.deim.asm.R;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentActivity;
+
+
+import cat.urv.deim.asm.p2.common.MainActivity;
+import cat.urv.deim.asm.p3.common.EventDetailActivity;
+import cat.urv.deim.asm.p3.common.EventsFragment;
 
 import com.squareup.picasso.Picasso;
 
@@ -23,6 +33,8 @@ public class EventDetailActivity extends Activity {
     private TextView eventKeywords;     // Or "tags"
     private TextView eventText;
 
+
+
     private ImageView favIcon;
     private boolean favSelected;
 
@@ -38,6 +50,22 @@ public class EventDetailActivity extends Activity {
         } else {
             eventIndex = 0;
         }
+
+        //back arrow
+        ImageButton arrowBack = findViewById(R.id.back_button_event_detail);
+
+        arrowBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(
+                        getApplicationContext(),
+                        MainActivity.class) );
+
+            }
+        });
+
+
+
 
         DataProvider dataProvider = DataProvider.getInstance(
                 this.getApplicationContext(),

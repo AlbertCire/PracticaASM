@@ -33,11 +33,15 @@ public class MainActivity extends AppCompatActivity
     private boolean[] selectedIcons = {true, true, false, false};
     // Fragment references
     EventsFragment eventsFragment;
+    FragmentTransaction transaction;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        transaction = getSupportFragmentManager().beginTransaction();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,6 +61,7 @@ public class MainActivity extends AppCompatActivity
 
         //Fragment references
         eventsFragment = new EventsFragment();
+        transaction.setPrimaryNavigationFragment(eventsFragment);
 
 
         // Listeners to change the icons when clicked
@@ -173,6 +178,9 @@ public class MainActivity extends AppCompatActivity
                     getApplicationContext(),
                     FaqsActivity.class));
         } else if (id == R.id.nav_settings) {
+            startActivity(new Intent(
+                    getApplicationContext(),
+                    EventDetailActivity.class));
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
