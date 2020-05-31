@@ -15,12 +15,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
-import cat.urv.deim.asm.libraries.commanagerdc.providers.DataProvider;
+import cat.urv.deim.asm.p3.common.EventDetailActivity;
 import cat.urv.deim.asm.p3.common.EventsFragment;
 import cat.urv.deim.asm.p3.common.FaqsActivity;
 
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private ImageView favIcon1, favIcon2, bookmarkIcon1, bookmarkIcon2;
     private boolean[] selectedIcons = {true, true, false, false};
-    //Fragment references
+    // Fragment references
     EventsFragment eventsFragment;
 
     @Override
@@ -152,15 +151,14 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_news) {
         } else if (id == R.id.nav_articles) {
         } else if (id == R.id.nav_events) {
-            //Cambiamos el titulo
+            // We change the title
             mainTitle.setText(R.string.menu_events);
-            //Sustituimos el fragment actual por el de Eventos
+            // We change the fragment for the Event fragment
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, eventsFragment);
             transaction.commit();
         } else if (id == R.id.nav_calendar) {
         } else if (id == R.id.nav_profile) {
-            // Only functional menu option at the moment
             if (GlobalLoginClass.isLoginCorrect()) {
                 startActivity(new Intent(
                         getApplicationContext(),

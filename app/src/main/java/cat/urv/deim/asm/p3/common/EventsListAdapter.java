@@ -20,11 +20,14 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
     ArrayList<String> titlesList;
     ArrayList<String> contentsList;
     ArrayList<String> urlImagesList;
+    ArrayList<String> tagList;
 
-    public EventsListAdapter(ArrayList<String> titlesList, ArrayList<String> contentsList, ArrayList<String> urlImagesList) {
+    public EventsListAdapter(ArrayList<String> titlesList, ArrayList<String> contentsList,
+                             ArrayList<String> urlImagesList, ArrayList<String> tagList) {
         this.titlesList = titlesList;
         this.contentsList = contentsList;
         this.urlImagesList = urlImagesList;
+        this.tagList = tagList;
     }
 
     @NonNull
@@ -37,12 +40,12 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.updateData(titlesList.get(position), contentsList.get(position), urlImagesList.get(position));
+        holder.updateData(titlesList.get(position), contentsList.get(position), urlImagesList.get(position), tagList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        //Es el numero de eventos que tenemos
+        // Just the number of events we have
         return titlesList.size();
     }
 
@@ -50,18 +53,21 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
         TextView eventTitle;
         TextView eventContent;
         ImageView eventImage;
+        TextView eventTags;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             eventTitle = (TextView) itemView.findViewById(R.id.events_title);
             eventContent = (TextView) itemView.findViewById(R.id.events_content);
             eventImage = (ImageView) itemView.findViewById(R.id.event_image);
+            eventTags = (TextView) itemView.findViewById(R.id.event_tags);
         }
 
-        public void updateData(String title, String content, String image) {
+        public void updateData(String title, String content, String image, String tags) {
             eventTitle.setText(title);
             eventContent.setText(content);
-            Picasso.get().load(image).into(eventImage); //pasamos URL a ImageView
+            Picasso.get().load(image).into(eventImage); // URL image to ImageView
+            eventTags.setText(tags);
         }
     }
 }

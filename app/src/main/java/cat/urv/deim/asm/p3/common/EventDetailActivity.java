@@ -21,6 +21,7 @@ public class EventDetailActivity extends Activity {
     private TextView eventTitle;        // In the JSON, it corresponds to the attribute "name"
     private ImageView eventCoverImage;  // The JSON gives an URL to the actual image resource
     private TextView eventKeywords;     // Or "tags"
+    private TextView eventText;
 
     private ImageView favIcon;
     private boolean favSelected;
@@ -30,9 +31,13 @@ public class EventDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
-        eventIndex = 0;     // --- FOR NOW WE JUST PICK THE FIRST EVENT ---
-                            // This is not a final version, we want the eventIndex to be
-                            // the concrete event that was selected from the menu.
+        // Index of the Event clicked on the Event fragments
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            eventIndex = bundle.getInt("eventIndex");
+        } else {
+            eventIndex = 0;
+        }
 
         DataProvider dataProvider = DataProvider.getInstance(
                 this.getApplicationContext(),
@@ -43,11 +48,20 @@ public class EventDetailActivity extends Activity {
         eventTitle = findViewById(R.id.event_title);
         eventTitle.setText(events.get(eventIndex).getName());
 
-        eventCoverImage = findViewById(R.id.event_cover_image);
-        // Picasso.with(this.getApplicationContext()).load(events.get(eventIndex).getImageURL()).into(eventCoverImage);
-
         eventKeywords = findViewById(R.id.event_keywords);
-        eventKeywords.setText("" /*keywords*/);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < events.get(eventIndex).getTags().size(); i++) {
+            String nextKeyword = events.get(eventIndex).getTags().get(i).getName();
+            sb.append(nextKeyword);
+            if (i < events.get(eventIndex).getTags().size() - 1) {
+                sb.append(", ");
+            }
+        }
+        eventKeywords.setText(sb.toString());
+
+        // Loading the image from URL using external module Picasso
+        eventCoverImage = findViewById(R.id.event_cover_image);
+        Picasso.get().load(events.get(eventIndex).getImageURL()).into(eventCoverImage);
 
         // Fav icon configuration
         favIcon = findViewById(R.id.fav_icon);
@@ -65,5 +79,8 @@ public class EventDetailActivity extends Activity {
                 }
             }
         });
+
+        eventText = findViewById(R.id.event_text);
+        eventText.setText(events.get(eventIndex).getDescription());
     }
 }
