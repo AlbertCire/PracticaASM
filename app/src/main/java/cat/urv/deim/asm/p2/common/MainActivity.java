@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,9 +17,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
-import cat.urv.deim.asm.p3.common.EventDetailActivity;
-import cat.urv.deim.asm.p3.common.EventsFragment;
-import cat.urv.deim.asm.p3.common.FaqsActivity;
+import cat.urv.deim.asm.p3.shared.EventsFragment;
+import cat.urv.deim.asm.p3.shared.FaqsActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

@@ -1,4 +1,4 @@
-package cat.urv.deim.asm.p3.common;
+package cat.urv.deim.asm.p3.shared;
 
 import cat.urv.deim.asm.R;
 import cat.urv.deim.asm.libraries.commanagerdc.models.Faq;

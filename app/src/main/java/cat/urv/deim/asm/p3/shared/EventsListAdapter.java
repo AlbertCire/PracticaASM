@@ -1,4 +1,4 @@
-package cat.urv.deim.asm.p3.common;
+package cat.urv.deim.asm.p3.shared;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package cat.urv.deim.asm.p3.common;
+package cat.urv.deim.asm.p3.shared;
 
 import cat.urv.deim.asm.R;
 
@@ -10,13 +10,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.fragment.app.FragmentTransaction;
-import androidx.fragment.app.FragmentActivity;
-
 
 import cat.urv.deim.asm.p2.common.MainActivity;
-import cat.urv.deim.asm.p3.common.EventDetailActivity;
-import cat.urv.deim.asm.p3.common.EventsFragment;
 
 import com.squareup.picasso.Picasso;
 
