@@ -29,11 +29,11 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private ImageView favIcon1, favIcon2, bookmarkIcon1, bookmarkIcon2;
-    private boolean[] selectedIcons = {true, true, false, false};
     // Fragment references
     EventsFragment eventsFragment;
     FragmentTransaction transaction;
+
+
 
 
     @Override
@@ -54,65 +54,11 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        favIcon1 = findViewById(R.id.fav_icon_1);
-        favIcon2 = findViewById(R.id.fav_icon_2);
-        bookmarkIcon1 = findViewById(R.id.bookmark_icon_1);
-        bookmarkIcon2 = findViewById(R.id.bookmark_icon_2);
 
         //Fragment references
         eventsFragment = new EventsFragment();
         transaction.setPrimaryNavigationFragment(eventsFragment);
 
-
-        // Listeners to change the icons when clicked
-        favIcon1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedIcons[0]) {
-                    favIcon1.setImageResource(R.drawable.favorite_border);
-                    selectedIcons[0] = false;
-                } else {
-                    favIcon1.setImageResource(R.drawable.favorite_black);
-                    selectedIcons[0] = true;
-                }
-            }
-        });
-        favIcon2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedIcons[1]) {
-                    favIcon2.setImageResource(R.drawable.favorite_border);
-                    selectedIcons[1] = false;
-                } else {
-                    favIcon2.setImageResource(R.drawable.favorite_black);
-                    selectedIcons[1] = true;
-                }
-            }
-        });
-        bookmarkIcon1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedIcons[2]) {
-                    bookmarkIcon1.setImageResource(R.drawable.bookmark_border);
-                    selectedIcons[2] = false;
-                } else {
-                    bookmarkIcon1.setImageResource(R.drawable.bookmark_black);
-                    selectedIcons[2] = true;
-                }
-            }
-        });
-        bookmarkIcon2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedIcons[3]) {
-                    bookmarkIcon2.setImageResource(R.drawable.bookmark_border);
-                    selectedIcons[3] = false;
-                } else {
-                    bookmarkIcon2.setImageResource(R.drawable.bookmark_black);
-                    selectedIcons[3] = true;
-                }
-            }
-        });
 
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -178,9 +124,6 @@ public class MainActivity extends AppCompatActivity
                     getApplicationContext(),
                     FaqsActivity.class));
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(
-                    getApplicationContext(),
-                    EventDetailActivity.class));
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -28,9 +28,9 @@
     <string name="menu_settings">Configuració</string>
     <string name="menu_favorites">Preferits</string>
     <string name="menu_bookmarks">Marcadors</string>
-    <string name="question_1">Pregunta 1</string>
-    <string name="question_2">Pregunta 2</string>
-    <string name="question_3">Pregunta 3</string>
-    <string name="question_4">Pregunta 4</string>
     <string name="menu_event_detail">Detalls de l\'esdeveniment</string>
+    <string name="add_fav">Afegit a favorits</string>
+    <string name="del_fav">Eliminat de favorits</string>
+    <string name="add_bookmark">Event guardat</string>
+    <string name="del_bookmark">Event eliminat</string>
 </resources>
