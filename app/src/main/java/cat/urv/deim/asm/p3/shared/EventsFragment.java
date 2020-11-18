@@ -59,10 +59,6 @@ public class EventsFragment extends Fragment {
     String username;
     String accessToken;
 
-    public EventsFragment() {
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,14 +70,10 @@ public class EventsFragment extends Fragment {
             Reader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
             JsonReader jsonReader = new JsonReader(reader);
             jsonReader.beginObject();
-            jsonReader.nextName();
-            url = jsonReader.nextString();
-            jsonReader.nextName();
-            mail = jsonReader.nextString();
-            jsonReader.nextName();
-            username = jsonReader.nextString();
-            jsonReader.nextName();
-            accessToken = jsonReader.nextString();
+            jsonReader.nextName(); url = jsonReader.nextString() + "events";
+            jsonReader.nextName(); mail = jsonReader.nextString();
+            jsonReader.nextName(); username = jsonReader.nextString();
+            jsonReader.nextName(); accessToken = jsonReader.nextString();
             jsonReader.endObject();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
