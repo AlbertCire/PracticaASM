@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="#ebebeb"
+        android:background="@color/white_background"
         android:padding="10dp"
         android:paddingStart="30dp"
         android:paddingEnd="10dp"

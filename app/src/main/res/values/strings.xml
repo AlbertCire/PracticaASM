@@ -33,5 +33,6 @@
     <string name="del_fav">Deleted from favorites</string>
     <string name="add_bookmark">Saved Event</string>
     <string name="del_bookmark">Deleted Event</string>
+    <string name="menu_extra" translatable="false">Extra</string>
 
 </resources>

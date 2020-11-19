@@ -4,12 +4,19 @@ public class Event {
 
     private String description;
     private String imageURL;
+    private String name;
+    private String tags;
     private String type;
+    private String webURL;
 
-    public Event(String description, String imageURL, String type) {
+
+    public Event(String description, String imageURL, String name, String tags, String type, String webURL) {
         this.description = description;
         this.imageURL = imageURL;
+        this.name = name;
+        this.tags = tags;
         this.type = type;
+        this.webURL = webURL;
     }
 
     @Override
@@ -43,5 +50,29 @@ public class Event {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getWebURL() {
+        return webURL;
+    }
+
+    public void setWebURL(String webURL) {
+        this.webURL = webURL;
     }
 }

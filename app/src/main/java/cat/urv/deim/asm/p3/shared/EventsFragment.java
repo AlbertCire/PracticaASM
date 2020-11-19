@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.json.*;
 
 import cat.urv.deim.asm.R;
 
@@ -54,6 +55,8 @@ public class EventsFragment extends Fragment {
     ArrayList<String> contentsList;
     ArrayList<String> urlImagesList;
     ArrayList<String> tagList;
+    ArrayList<String> webURLList;
+    ArrayList<String> typeList;
     String url;
     String mail;
     String username;
@@ -91,6 +94,8 @@ public class EventsFragment extends Fragment {
         contentsList = new ArrayList<>();
         urlImagesList = new ArrayList<>();
         tagList = new ArrayList<>();
+        webURLList = new ArrayList<>();
+        typeList = new ArrayList<>();
 
 
         //DataProvider dataProvider = DataProvider.getInstance(
@@ -104,9 +109,22 @@ public class EventsFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("RESPONSE: ", response);
+                        Log.e("EVENTS RESPONSE: ", response);
+
+                        String eventsString = null;
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            eventsString = jsonObject.getString("events");
+                            Log.e("Prova JSONOBJECT EVENTS: ", eventsString);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         Event[] events;
+
                         if (!response.equals(null)) {
+                            /*
                             String splitResponse;
                             StringBuilder eventArray = new StringBuilder();
                             eventArray.append("[");
@@ -114,16 +132,29 @@ public class EventsFragment extends Fragment {
                             splitResponse = splitResponse.split("]")[0];
                             eventArray.append(splitResponse);
                             eventArray.append("]");
-
+                            */
                             Gson gson = new Gson();
-                            events = gson.fromJson(eventArray.toString(), Event[].class);
+                            events = gson.fromJson(eventsString, Event[].class);
 
                             // *********************
                             // Show Events on screen
                             for (Event event : events) {
-                                titlesList.add(event.getType());
+
                                 contentsList.add(event.getDescription());
                                 urlImagesList.add(event.getImageURL());
+                                typeList.add(event.getType());
+
+                                if(event.getWebURL() != null && event.getName() != null && event.getTags() != null) {
+                                    webURLList.add(event.getWebURL());
+                                    titlesList.add(event.getName());
+                                    tagList.add(event.getTags());
+                                }else{
+                                    webURLList.add("");
+                                    titlesList.add("");
+                                    tagList.add("");
+                                }
+
+
 
                                 /*
                                 StringBuilder sb = new StringBuilder();
@@ -136,13 +167,14 @@ public class EventsFragment extends Fragment {
                                 }
                                 tagList.add(sb.toString());
                                 */
-                                tagList.add("");
+
                             }
-                            EventsListAdapter adapter = new EventsListAdapter(titlesList, contentsList, urlImagesList, tagList);
+                            EventsListAdapter adapter =
+                                    new EventsListAdapter
+                                            (titlesList, contentsList, urlImagesList, tagList, typeList, webURLList);
                             recyclerEvents.setAdapter(adapter);
                             // *********************
 
-                            Log.e("Your response: ", response);
                         } else {
                             Log.e("Your array response: " + response, "Data null");
                         }
@@ -152,7 +184,7 @@ public class EventsFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("Your response: ", "ERROR");
-                        EventsListAdapter adapter = new EventsListAdapter(null, null, null, null);
+                        EventsListAdapter adapter = new EventsListAdapter(null, null, null, null, null, null);
                         recyclerEvents.setAdapter(adapter);
                     }
                 }) {

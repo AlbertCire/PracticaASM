@@ -21,6 +21,7 @@
         <activity android:name=".p2.common.ErrorLoginActivity"/>
         <activity android:name=".p2.common.MainActivity"/>
         <activity android:name=".p2.common.ProfileActivity"/>
+        <activity android:name=".p2.common.ExtraActivity"/>
         <activity android:name=".p3.shared.FaqsActivity"/>
         <activity android:name=".p3.shared.EventDetailActivity"/>
 

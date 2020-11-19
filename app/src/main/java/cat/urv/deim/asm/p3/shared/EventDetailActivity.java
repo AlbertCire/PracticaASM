@@ -11,22 +11,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import androidx.fragment.app.FragmentTransaction;
+
+import cat.urv.deim.asm.models.Event;
+import cat.urv.deim.asm.models.Tag;
 import cat.urv.deim.asm.p2.common.MainActivity;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import cat.urv.deim.asm.libraries.commanagerdc.models.Event;
 import cat.urv.deim.asm.libraries.commanagerdc.providers.DataProvider;
 
 public class EventDetailActivity extends Activity {
 
     private int eventIndex;             // The index of the concrete event we want from JSON
     private TextView eventTitle;        // In the JSON, it corresponds to the attribute "name"
-    private ImageView eventCoverImage;  // The JSON gives an URL to the actual image resource
-    private TextView eventKeywords;     // Or "tags"
-    private TextView eventText;
+    private ImageView eventImage;  // The JSON gives an URL to the actual image resource
+    private TextView eventTags;     // Or "tags"
+    private TextView eventDescription;
 
 
 
@@ -38,12 +42,30 @@ public class EventDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
+        eventTitle = findViewById(R.id.event_title);
+        eventDescription = findViewById(R.id.event_text);
+        eventImage = findViewById(R.id.event_cover_image);
+        eventTags = findViewById(R.id.event_keywords);
+
+        String title = "";
+        String description = "";
+        String imageURL = "";
+        String tags = "";
+        String type = "";
+        String webURL = "";
+
+
         // Index of the Event clicked on the Event fragments
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            eventIndex = bundle.getInt("eventIndex");
-        } else {
-            eventIndex = 0;
+            title = bundle.getString("title");
+            description = bundle.getString("description");
+            imageURL = bundle.getString("imageURL");
+            tags = bundle.getString("tags");
+            type = bundle.getString("type");
+            webURL = bundle.getString("webURL");
+        }else{
+            title = "Event Not Found";
         }
 
         //back arrow
@@ -54,37 +76,32 @@ public class EventDetailActivity extends Activity {
             public void onClick(View v) {
                 startActivity(new Intent(
                         getApplicationContext(),
-                        MainActivity.class) );
-
+                        MainActivity.class).putExtra("caller", "EventDetailActivity") );
             }
         });
 
-
-
-
-        DataProvider dataProvider = DataProvider.getInstance(
-                this.getApplicationContext(),
-                R.raw.faqs,R.raw.news,R.raw.articles,R.raw.events,R.raw.calendar);
-        List<Event> events = dataProvider.getEvents();
-
-        // Using the data extracted from the JSON to update the view
-        eventTitle = findViewById(R.id.event_title);
-        eventTitle.setText(events.get(eventIndex).getName());
-
-        eventKeywords = findViewById(R.id.event_keywords);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < events.get(eventIndex).getTags().size(); i++) {
-            String nextKeyword = events.get(eventIndex).getTags().get(i).getName();
-            sb.append(nextKeyword);
-            if (i < events.get(eventIndex).getTags().size() - 1) {
-                sb.append(", ");
-            }
-        }
-        eventKeywords.setText(sb.toString());
-
+        eventTitle.setText(title);
         // Loading the image from URL using external module Picasso
-        eventCoverImage = findViewById(R.id.event_cover_image);
-        Picasso.get().load(events.get(eventIndex).getImageURL()).into(eventCoverImage);
+        Picasso.get().load(imageURL).into(eventImage);
+        eventDescription.setText(description);
+
+        Tag[] tagsList;
+        Gson gson = new Gson();
+        tagsList = gson.fromJson(tags, Tag[].class);
+
+        if (tagsList!=null) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < tagsList.length; i++) {
+                String nextKeyword = tagsList[i].getName();
+                sb.append(nextKeyword);
+                if (i < tagsList.length - 1) {
+                    sb.append(", ");
+                }
+            }
+            eventTags.setText(sb.toString());
+        }else{
+            eventTags.setText(tags);
+        }
 
         // Fav icon configuration
         favIcon = findViewById(R.id.fav_icon);
@@ -102,8 +119,5 @@ public class EventDetailActivity extends Activity {
                 }
             }
         });
-
-        eventText = findViewById(R.id.event_text);
-        eventText.setText(events.get(eventIndex).getDescription());
     }
 }

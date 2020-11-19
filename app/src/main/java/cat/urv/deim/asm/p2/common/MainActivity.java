@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String caller = getIntent().getStringExtra("caller");
 
         transaction = getSupportFragmentManager().beginTransaction();
 
@@ -66,6 +67,17 @@ public class MainActivity extends AppCompatActivity
         menuFavorites.setVisible(GlobalLoginClass.isLoginCorrect());
         MenuItem menuBookmarks = menuNavigation.findItem(R.id.nav_bookmarks);
         menuBookmarks.setVisible(GlobalLoginClass.isLoginCorrect());
+
+
+        TextView mainTitle = findViewById(R.id.main_title);
+        if(caller!=null && caller.equals("EventDetailActivity")){
+            mainTitle.setText(R.string.menu_events);
+            // We change the fragment for the Event fragment
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, eventsFragment);
+            caller = null;
+            transaction.commit();
+        }
     }
 
     // If user presses the "back" button, the menu is closed
@@ -121,6 +133,10 @@ public class MainActivity extends AppCompatActivity
                     getApplicationContext(),
                     FaqsActivity.class));
         } else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_extra) {
+            startActivity(new Intent(
+                    getApplicationContext(),
+                    ExtraActivity.class));
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

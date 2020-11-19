@@ -24,9 +24,11 @@ import static androidx.core.content.ContextCompat.startActivity;
 public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.ViewHolder> {
 
     ArrayList<String> titlesList;
-    ArrayList<String> contentsList;
+    ArrayList<String> descriptionsList;
     ArrayList<String> urlImagesList;
     ArrayList<String> tagList;
+    ArrayList<String> typeList;
+    ArrayList<String> webURLList;
 
     ImageView favIcon1, bookmarkIcon1;
     private boolean[] selectedIcons = {true, true};
@@ -34,12 +36,20 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
 
 
 
-    public EventsListAdapter(ArrayList<String> titlesList, ArrayList<String> contentsList,
-                             ArrayList<String> urlImagesList, ArrayList<String> tagList) {
-        this.titlesList = titlesList;
-        this.contentsList = contentsList;
+    public EventsListAdapter(ArrayList<String> titlesList, ArrayList<String> descriptionsList,
+                             ArrayList<String> urlImagesList, ArrayList<String> tagList,
+                             ArrayList<String> typeList, ArrayList<String> webURLList) {
+
+
+        //*******************************************************************************
+        //At the moment, the title and the type are interchanged. Modify in the future.
+        //*******************************************************************************
+        this.titlesList = typeList;
+        this.descriptionsList = descriptionsList;
         this.urlImagesList = urlImagesList;
         this.tagList = tagList;
+        this.typeList = titlesList;
+        this.webURLList = webURLList;
     }
 
     @NonNull
@@ -67,7 +77,14 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
                             parent.getContext(),
                             EventDetailActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putInt("eventIndex", index);     // Passing index as an argument
+                    bundle.putString("title", titlesList.get(index));
+                    bundle.putString("description", descriptionsList.get(index));
+                    bundle.putString("imageURL", urlImagesList.get(index));
+                    bundle.putString("tags", tagList.get(index));
+                    bundle.putString("type", typeList.get(index));
+                    bundle.putString("webURL", webURLList.get(index));
+
+
                     intent.putExtras(bundle);
                     startActivity(parent.getContext(), intent, null);
                 }
@@ -83,8 +100,8 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
                 int index = -1;
 
                 // First find out which title has been clicked to know its index
-                for (int i = 0; i < contentsList.size(); i++) {
-                    if (contentsList.get(i).equalsIgnoreCase(selectedText.getText().toString())) {
+                for (int i = 0; i < descriptionsList.size(); i++) {
+                    if (descriptionsList.get(i).equalsIgnoreCase(selectedText.getText().toString())) {
                         index = i;
                         break;
                     }
@@ -138,7 +155,7 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.updateData(titlesList.get(position), contentsList.get(position), urlImagesList.get(position), tagList.get(position));
+            holder.updateData(titlesList.get(position), descriptionsList.get(position), urlImagesList.get(position), tagList.get(position));
     }
 
     @Override
