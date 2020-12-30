@@ -50,18 +50,18 @@ public class EventDetailActivity extends Activity {
         String title = "";
         String description = "";
         String imageURL = "";
-        String tags = "";
+        Tag[] tags = null;
         String type = "";
         String webURL = "";
 
-
+        Gson gson = new Gson();
         // Index of the Event clicked on the Event fragments
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             title = bundle.getString("title");
             description = bundle.getString("description");
             imageURL = bundle.getString("imageURL");
-            tags = bundle.getString("tags");
+            tags = gson.fromJson(bundle.getString("tags"), Tag[].class);
             type = bundle.getString("type");
             webURL = bundle.getString("webURL");
         }else{
@@ -85,22 +85,22 @@ public class EventDetailActivity extends Activity {
         Picasso.get().load(imageURL).into(eventImage);
         eventDescription.setText(description);
 
-        Tag[] tagsList;
-        Gson gson = new Gson();
-        tagsList = gson.fromJson(tags, Tag[].class);
+        //Tag[] tagsList;
+        //Gson gson = new Gson();
+        //tagsList = gson.fromJson(tags, Tag[].class);
 
-        if (tagsList!=null) {
+        if (tags!=null) {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < tagsList.length; i++) {
-                String nextKeyword = tagsList[i].getName();
+            for (int i = 0; i < tags.length; i++) {
+                String nextKeyword = tags[i].getName();
                 sb.append(nextKeyword);
-                if (i < tagsList.length - 1) {
+                if (i < tags.length - 1) {
                     sb.append(", ");
                 }
             }
             eventTags.setText(sb.toString());
         }else{
-            eventTags.setText(tags);
+            eventTags.setText("");
         }
 
         // Fav icon configuration

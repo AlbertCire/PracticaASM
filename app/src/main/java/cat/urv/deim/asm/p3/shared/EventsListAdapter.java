@@ -12,11 +12,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import cat.urv.deim.asm.R;
+import cat.urv.deim.asm.models.Tag;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
@@ -26,7 +28,7 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
     ArrayList<String> titlesList;
     ArrayList<String> descriptionsList;
     ArrayList<String> urlImagesList;
-    ArrayList<String> tagList;
+    ArrayList<Tag[]> tagList;
     ArrayList<String> typeList;
     ArrayList<String> webURLList;
 
@@ -37,18 +39,16 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
 
 
     public EventsListAdapter(ArrayList<String> titlesList, ArrayList<String> descriptionsList,
-                             ArrayList<String> urlImagesList, ArrayList<String> tagList,
+                             ArrayList<String> urlImagesList, ArrayList<Tag[]> tagList,
                              ArrayList<String> typeList, ArrayList<String> webURLList) {
 
 
-        //*******************************************************************************
-        //At the moment, the title and the type are interchanged. Modify in the future.
-        //*******************************************************************************
-        this.titlesList = typeList;
+
+        this.titlesList = titlesList;
         this.descriptionsList = descriptionsList;
         this.urlImagesList = urlImagesList;
         this.tagList = tagList;
-        this.typeList = titlesList;
+        this.typeList = typeList;
         this.webURLList = webURLList;
     }
 
@@ -71,6 +71,7 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
                         break;
                     }
                 }
+                Gson gson = new Gson();
                 // If the title was found in the event title list, then we go to the particular event
                 if (index != -1) {
                     Intent intent = new Intent(
@@ -80,7 +81,7 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
                     bundle.putString("title", titlesList.get(index));
                     bundle.putString("description", descriptionsList.get(index));
                     bundle.putString("imageURL", urlImagesList.get(index));
-                    bundle.putString("tags", tagList.get(index));
+                    bundle.putString("tags", gson.toJson(tagList.get(index)));
                     bundle.putString("type", typeList.get(index));
                     bundle.putString("webURL", webURLList.get(index));
 
@@ -155,7 +156,8 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.updateData(titlesList.get(position), descriptionsList.get(position), urlImagesList.get(position), tagList.get(position));
+        Gson gson = new Gson();
+            holder.updateData(titlesList.get(position), descriptionsList.get(position), urlImagesList.get(position), gson.toJson(tagList.get(position)));
     }
 
     @Override
@@ -178,11 +180,26 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
             eventTags = (TextView) itemView.findViewById(R.id.event_tags);
         }
 
-        public void updateData(String title, String content, String image, String tags) {
+        public void updateData(String title, String content, String image, String stringTags) {
             eventTitle.setText(title);
             eventContent.setText(content);
             Picasso.get().load(image).into(eventImage); // URL image to ImageView
-            eventTags.setText(tags);
+            Gson gson = new Gson();
+
+            Tag[] tags = gson.fromJson(stringTags, Tag[].class);
+            if (tags!=null) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < tags.length; i++) {
+                    String nextKeyword = tags[i].getName();
+                    sb.append(nextKeyword);
+                    if (i < tags.length - 1) {
+                        sb.append(", ");
+                    }
+                }
+                eventTags.setText(sb.toString());
+            }else{
+                eventTags.setText("");
+            }
         }
     }
 

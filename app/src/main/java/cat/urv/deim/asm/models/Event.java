@@ -1,16 +1,18 @@
 package cat.urv.deim.asm.models;
 
+import java.util.ArrayList;
+
 public class Event {
 
     private String description;
     private String imageURL;
     private String name;
-    private String tags;
+    private Tag[] tags;
     private String type;
     private String webURL;
 
 
-    public Event(String description, String imageURL, String name, String tags, String type, String webURL) {
+    public Event(String description, String imageURL, String name, Tag[] tags, String type, String webURL) {
         this.description = description;
         this.imageURL = imageURL;
         this.name = name;
@@ -60,11 +62,11 @@ public class Event {
         this.name = name;
     }
 
-    public String getTags() {
+    public Tag[] getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(Tag[] tags) {
         this.tags = tags;
     }
 

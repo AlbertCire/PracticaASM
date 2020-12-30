@@ -19,6 +19,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import cat.urv.deim.asm.p3.shared.EventsFragment;
 import cat.urv.deim.asm.p3.shared.FaqsActivity;
+import cat.urv.deim.asm.p3.shared.SQLiteProvider;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity
             caller = null;
             transaction.commit();
         }
+
+        SQLiteProvider sqLiteProvider = new SQLiteProvider();
     }
 
     // If user presses the "back" button, the menu is closed

@@ -41,6 +41,7 @@ import org.json.*;
 import cat.urv.deim.asm.R;
 
 import cat.urv.deim.asm.models.Event;
+import cat.urv.deim.asm.models.Tag;
 
 /*
 import cat.urv.deim.asm.libraries.commanagerdc.models.Event;
@@ -54,7 +55,7 @@ public class EventsFragment extends Fragment {
     ArrayList<String> titlesList;
     ArrayList<String> contentsList;
     ArrayList<String> urlImagesList;
-    ArrayList<String> tagList;
+    ArrayList<Tag[]> tagList;
     ArrayList<String> webURLList;
     ArrayList<String> typeList;
     String url;
@@ -134,6 +135,7 @@ public class EventsFragment extends Fragment {
                             eventArray.append("]");
                             */
                             Gson gson = new Gson();
+                            Log.e("STRING", eventsString);
                             events = gson.fromJson(eventsString, Event[].class);
 
                             // *********************
@@ -151,7 +153,7 @@ public class EventsFragment extends Fragment {
                                 }else{
                                     webURLList.add("");
                                     titlesList.add("");
-                                    tagList.add("");
+                                    tagList.add(null);
                                 }
 
 

@@ -28,6 +28,12 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <provider
+            android:authorities="cat.urv.deim.asm.p3.shared"
+            android:name="cat.urv.deim.asm.p3.shared.SQLiteProvider"
+            android:readPermission="cat.urv.deim.asm.p3.shared.READ_DATABASE"
+            android:writePermission="cat.urv.deim.asm.p3.shared.WRITE_DATABASE" />
     </application>
 
     <!-- New permissions (Practica 3) -->
