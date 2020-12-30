@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import cat.urv.deim.asm.R;
+import cat.urv.deim.asm.models.Event;
 import cat.urv.deim.asm.models.Tag;
 
 import static androidx.core.content.ContextCompat.startActivity;
@@ -50,6 +51,24 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
         this.tagList = tagList;
         this.typeList = typeList;
         this.webURLList = webURLList;
+    }
+
+    public EventsListAdapter(ArrayList<Event> events) {
+        titlesList = new ArrayList<>();
+        descriptionsList = new ArrayList<>();
+        urlImagesList = new ArrayList<>();
+        tagList = new ArrayList<>();
+        typeList = new ArrayList<>();
+        webURLList = new ArrayList<>();
+
+        for(Event event : events){
+            titlesList.add(event.getName()) ;
+            descriptionsList.add(event.getDescription());
+            urlImagesList.add(event.getImageURL());
+            tagList.add(event.getTags());
+            typeList.add(event.getType());
+            webURLList.add(event.getWebURL());
+        }
     }
 
     @NonNull

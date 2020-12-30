@@ -2,6 +2,7 @@ package cat.urv.deim.asm.p2.common;
 
 import cat.urv.deim.asm.R;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,8 @@ import cat.urv.deim.asm.p3.shared.EventsFragment;
 import cat.urv.deim.asm.p3.shared.FaqsActivity;
 import cat.urv.deim.asm.p3.shared.SQLiteProvider;
 
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.CONTENT_URI;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -30,8 +33,6 @@ public class MainActivity extends AppCompatActivity
     // Fragment references
     EventsFragment eventsFragment;
     FragmentTransaction transaction;
-
-
 
 
     @Override

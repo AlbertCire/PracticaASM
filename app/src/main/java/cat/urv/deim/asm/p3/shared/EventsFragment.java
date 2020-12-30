@@ -1,8 +1,11 @@
 package cat.urv.deim.asm.p3.shared;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
@@ -10,7 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,16 +30,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.google.gson.internal.bind.DateTypeAdapter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,13 +48,10 @@ import cat.urv.deim.asm.R;
 import cat.urv.deim.asm.models.Event;
 import cat.urv.deim.asm.models.Tag;
 
-/*
-import cat.urv.deim.asm.libraries.commanagerdc.models.Event;
-import cat.urv.deim.asm.libraries.commanagerdc.models.Tag;
-import cat.urv.deim.asm.libraries.commanagerdc.providers.DataProvider;
-*/
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.CONTENT_URI;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.*;
 
-public class EventsFragment extends Fragment {
+public class EventsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     RecyclerView recyclerEvents;
     ArrayList<String> titlesList;
@@ -98,11 +100,17 @@ public class EventsFragment extends Fragment {
         webURLList = new ArrayList<>();
         typeList = new ArrayList<>();
 
+        //******************************************************************************************
+        /*SQLite QUERY*/
 
-        //DataProvider dataProvider = DataProvider.getInstance(
-        //        this.getContext(),
-        //        R.raw.faqs,R.raw.news,R.raw.articles,R.raw.events,R.raw.calendar);
-        //List<Event> events = dataProvider.getEvents();
+        /*
+        SQLiteProvider sqLiteProvider = new SQLiteProvider();
+        Cursor queryCursor = sqLiteProvider.query(CONTENT_URI, null, null, null, null);
+        Loader<Cursor> cursorLoader = onCreateLoader(0, null);
+        onLoadFinished(cursorLoader, queryCursor);
+        */
+
+        //******************************************************************************************
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,     // Get list of events
@@ -125,15 +133,6 @@ public class EventsFragment extends Fragment {
                         Event[] events;
 
                         if (!response.equals(null)) {
-                            /*
-                            String splitResponse;
-                            StringBuilder eventArray = new StringBuilder();
-                            eventArray.append("[");
-                            splitResponse = response.split("\\[")[1];
-                            splitResponse = splitResponse.split("]")[0];
-                            eventArray.append(splitResponse);
-                            eventArray.append("]");
-                            */
                             Gson gson = new Gson();
                             Log.e("STRING", eventsString);
                             events = gson.fromJson(eventsString, Event[].class);
@@ -155,21 +154,6 @@ public class EventsFragment extends Fragment {
                                     titlesList.add("");
                                     tagList.add(null);
                                 }
-
-
-
-                                /*
-                                StringBuilder sb = new StringBuilder();
-                                List<Tag> tags = event.getTags();
-                                for (int i = 0; i < tags.size(); i++) {
-                                    sb.append(tags.get(i).getName());
-                                    if (i < tags.size() - 1) {
-                                        sb.append(", ");
-                                    }
-                                }
-                                tagList.add(sb.toString());
-                                */
-
                             }
                             EventsListAdapter adapter =
                                     new EventsListAdapter
@@ -208,6 +192,18 @@ public class EventsFragment extends Fragment {
         return view;
     }
 
+    private void insertEvent(String description, String imageURL, String name, String type, String webURL, String tags) {
+        ContentValues values = new ContentValues();
+        values.put(EVENTS_DESCRIPTION, description);
+        values.put(EVENTS_IMAGEURL, imageURL);
+        values.put(EVENTS_NAME, name);
+        values.put(EVENTS_TYPE, type);
+        values.put(EVENTS_WEBURL, webURL);
+        values.put(EVENTS_TAGS, tags);
+
+        Uri contactUri = getActivity().getApplicationContext().getContentResolver().insert(CONTENT_URI, values);
+    }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -217,4 +213,42 @@ public class EventsFragment extends Fragment {
         }
     }
 
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        return new CursorLoader(getActivity().getApplicationContext(), CONTENT_URI, null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
+        ArrayList<Event> list = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            int descriptionIndex = cursor.getColumnIndex(EVENTS_DESCRIPTION);
+            int imageURLIndex = cursor.getColumnIndex(EVENTS_IMAGEURL);
+            int nameIndex = cursor.getColumnIndex(EVENTS_NAME);
+            int typeIndex = cursor.getColumnIndex(EVENTS_TYPE);
+            int webURLIndex = cursor.getColumnIndex(EVENTS_WEBURL);
+            int tagsIndex = cursor.getColumnIndex(EVENTS_TAGS);
+
+            String description = cursor.getString(descriptionIndex);
+            String imageURL = cursor.getString(imageURLIndex);
+            String name = cursor.getString(nameIndex);
+            String type = cursor.getString(typeIndex);
+            String webURL = cursor.getString(webURLIndex);
+            Gson gson = new Gson();
+            Tag[] tags = gson.fromJson(cursor.getString(tagsIndex), Tag[].class);
+
+            Event event = new Event(description, imageURL, name, tags, type, webURL);
+            list.add(event);
+        }
+
+        EventsListAdapter adapter = new EventsListAdapter (list);
+        recyclerEvents.setAdapter(adapter);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        //Not necessary to implement
+    }
 }

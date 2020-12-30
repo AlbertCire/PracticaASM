@@ -63,7 +63,7 @@ public class SQLiteProvider extends ContentProvider {
         Cursor cursor;
         switch (uriMatcher.match(uri)) {
             case EVENTS:
-                cursor = db.query(TABLE_EVENTS, ALL_COLUMNS, selection, null, null, null, EVENTS_ID + " ASC");
+                cursor = db.query(TABLE_EVENTS, ALL_COLUMNS, selection, null, null, null, EVENTS_ID + " DESC");
                 break;
             default:
                 throw new IllegalArgumentException("This is an Unknown URI " + uri);
