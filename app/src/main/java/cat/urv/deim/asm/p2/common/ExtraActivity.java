@@ -1,8 +1,11 @@
 package cat.urv.deim.asm.p2.common;
 
-import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
@@ -20,6 +23,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +37,11 @@ import java.util.Map;
 
 import cat.urv.deim.asm.R;
 
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Calendar.*;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Articles.*;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.News.*;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.*;
+
 public class ExtraActivity extends AppCompatActivity {
     RequestQueue queue;
 
@@ -40,9 +51,9 @@ public class ExtraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_extra);
         queue = Volley.newRequestQueue(this);
         ImageButton arrowBack = findViewById(R.id.back_button);
-        Button news_button = (Button) findViewById(R.id.news_button);
-        Button articles_button = (Button) findViewById(R.id.articles_button);
-        Button calendar_button = (Button) findViewById(R.id.calendar_button);
+        Button newsButton = (Button) findViewById(R.id.news_button);
+        Button articlesButton = (Button) findViewById(R.id.articles_button);
+        Button calendarButton = (Button) findViewById(R.id.calendar_button);
         String auxURL = null;
         String auxMail = null;
         String auxUsername= null;
@@ -73,23 +84,43 @@ public class ExtraActivity extends AppCompatActivity {
         final String username = auxUsername;
         final String accessToken = auxAccessToken;
 
-        news_button.setOnClickListener(new View.OnClickListener() {
+        newsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Obtain news from Database
+                try {
+                    Cursor cursor = getContentResolver().query(CONTENT_URI_NEWS, null, null, null, null);
+                    int contentColumnIndex = cursor.getColumnIndex(NEWS_CONTENT);
+                    cursor.moveToNext();
+                    String actualContent = cursor.getString(contentColumnIndex);
+                    Log.i("INFO DATABASE NEWS ", "{" + actualContent + "}");
+                }catch (CursorIndexOutOfBoundsException e){
+                    Log.i("INFO DATABASE NEWS", "There's nothing in the news table.");
+                }
 
+                //Obtain news from api
                 StringRequest stringRequest = new StringRequest(
                         Request.Method.GET,
-                        url+"news",
+                        url+PATH_NEWS,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.e("NEWS RESPONSE: ", response);
+                                getContentResolver().delete(CONTENT_URI_NEWS, null, null);
+                                insertInfoIntoDB(CONTENT_URI_NEWS, NEWS_CONTENT, PATH_NEWS, response);
+
+                                JSONObject jsonObject = null;
+                                try {
+                                    jsonObject = new JSONObject(response);
+                                    Log.i("NEWS RESPONSE: ", jsonObject.getString(PATH_NEWS));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e("Your response: ", "ERROR");
+                                Log.e("Your NEWS response: ", "ERROR");
                             }
                         }) {
                     @Override
@@ -105,22 +136,43 @@ public class ExtraActivity extends AppCompatActivity {
             }
         });
 
-        articles_button.setOnClickListener(new View.OnClickListener() {
+        articlesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Obtain articles from Database
+                try {
+                    Cursor cursor = getContentResolver().query(CONTENT_URI_ARTICLES, null, null, null, null);
+                    int contentColumnIndex = cursor.getColumnIndex(ARTICLES_CONTENT);
+                    cursor.moveToNext();
+                    String actualContent = cursor.getString(contentColumnIndex);
+                    Log.i("INFO DATABASE ARTICLES ", "{" + actualContent + "}");
+                }catch (CursorIndexOutOfBoundsException e){
+                    Log.i("INFO DATABASE ARTICLES", "There's nothing in the articles table.");
+                }
+
+                //Obtain articles from api
                 StringRequest stringRequest = new StringRequest(
                         Request.Method.GET,     // Get list of events
-                        url+"articles",                    // Url defined in parameters
+                        url+PATH_ARTICLES,                    // Url defined in parameters
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.e("ARTICLES RESPONSE: ", response);
+                                getContentResolver().delete(CONTENT_URI_ARTICLES, null, null);
+                                insertInfoIntoDB(CONTENT_URI_ARTICLES, ARTICLES_CONTENT, PATH_ARTICLES, response);
+
+                                JSONObject jsonObject = null;
+                                try {
+                                    jsonObject = new JSONObject(response);
+                                    Log.i("ARTICLES RESPONSE: ", jsonObject.getString(PATH_ARTICLES));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e("Your response: ", "ERROR");
+                                Log.e("Your ARTICLES response: ", "ERROR");
                             }
                         }) {
                     @Override
@@ -136,22 +188,43 @@ public class ExtraActivity extends AppCompatActivity {
             }
         });
 
-        calendar_button.setOnClickListener(new View.OnClickListener() {
+        calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Obtain calendar from Database
+                try {
+                    Cursor cursor = getContentResolver().query(CONTENT_URI_CALENDAR, null, null, null, null);
+                    int contentColumnIndex = cursor.getColumnIndex(CALENDAR_CONTENT);
+                    cursor.moveToNext();
+                    String actualContent = cursor.getString(contentColumnIndex);
+                    Log.i("INFO DATABASE CALENDAR ", "{" + actualContent + "}");
+                }catch (CursorIndexOutOfBoundsException e){
+                    Log.i("INFO DATABASE CALENDAR", "There's nothing in the calendar table.");
+                }
+
+                //Obtain calendar from api
                 StringRequest stringRequest = new StringRequest(
                         Request.Method.GET,     // Get list of events
-                        url+"calendar",                    // Url defined in parameters
+                        url+PATH_CALENDAR,                    // Url defined in parameters
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.e("CALENDAR RESPONSE: ", response);
+                                getContentResolver().delete(CONTENT_URI_CALENDAR, null, null);
+                                insertInfoIntoDB(CONTENT_URI_CALENDAR, CALENDAR_CONTENT, PATH_CALENDAR, response);
+
+                                JSONObject jsonObject = null;
+                                try {
+                                    jsonObject = new JSONObject(response);
+                                    Log.i("CALENDAR RESPONSE: ", jsonObject.getString(PATH_CALENDAR));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e("Your response: ", "ERROR");
+                                Log.e("Your CALENDAR response: ", "ERROR");
                             }
                         }) {
                     @Override
@@ -177,5 +250,14 @@ public class ExtraActivity extends AppCompatActivity {
                         MainActivity.class) );
             }
         });
+    }
+
+    public void insertInfoIntoDB(Uri uri, String content, String path, String response){
+        ContentValues values = new ContentValues();
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            values.put(content, jsonObject.getString(path));
+            getContentResolver().insert(uri, values);
+        }catch (JSONException e){}
     }
 }

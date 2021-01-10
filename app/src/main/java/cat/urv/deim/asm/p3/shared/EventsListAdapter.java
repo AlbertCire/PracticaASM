@@ -39,7 +39,7 @@ public class EventsListAdapter extends RecyclerView.Adapter<EventsListAdapter.Vi
 
 
 
-    public EventsListAdapter(ArrayList<String> titlesList, ArrayList<String> descriptionsList,
+    public EventsListAdapter (ArrayList<String> titlesList, ArrayList<String> descriptionsList,
                              ArrayList<String> urlImagesList, ArrayList<Tag[]> tagList,
                              ArrayList<String> typeList, ArrayList<String> webURLList) {
 

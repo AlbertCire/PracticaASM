@@ -33,7 +33,8 @@
             android:authorities="cat.urv.deim.asm.p3.shared"
             android:name="cat.urv.deim.asm.p3.shared.SQLiteProvider"
             android:readPermission="cat.urv.deim.asm.p3.shared.READ_DATABASE"
-            android:writePermission="cat.urv.deim.asm.p3.shared.WRITE_DATABASE" />
+            android:writePermission="cat.urv.deim.asm.p3.shared.WRITE_DATABASE"
+            android:exported="false"/>
     </application>
 
     <!-- New permissions (Practica 3) -->

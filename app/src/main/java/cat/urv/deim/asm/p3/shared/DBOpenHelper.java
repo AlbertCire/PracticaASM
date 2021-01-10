@@ -5,7 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.*;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Articles.*;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Calendar.*;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.*;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.News.*;
 
 
 public class DBOpenHelper extends SQLiteOpenHelper {
@@ -16,12 +19,18 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(SQL_CREATE_NEWS);
+        db.execSQL(SQL_CREATE_ARTICLES);
         db.execSQL(SQL_CREATE_EVENTS);
+        db.execSQL(SQL_CREATE_CALENDAR);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NEWS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTICLES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CALENDAR);
         onCreate(db);
     }
 }

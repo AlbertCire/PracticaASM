@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
@@ -13,12 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,27 +33,25 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.json.*;
 
 import cat.urv.deim.asm.R;
-
 import cat.urv.deim.asm.models.Event;
 import cat.urv.deim.asm.models.Tag;
-
-import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.CONTENT_URI;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.*;
 
-public class EventsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class EventsFragment extends Fragment {
 
+    //Arrays of the content of the events.
     RecyclerView recyclerEvents;
     ArrayList<String> titlesList;
-    ArrayList<String> contentsList;
+    ArrayList<String> descriptionsList;
     ArrayList<String> urlImagesList;
     ArrayList<Tag[]> tagList;
     ArrayList<String> webURLList;
     ArrayList<String> typeList;
+    //Credentials
     String url;
     String mail;
     String username;
@@ -94,37 +86,37 @@ public class EventsFragment extends Fragment implements LoaderManager.LoaderCall
 
 
         titlesList = new ArrayList<>();
-        contentsList = new ArrayList<>();
+        descriptionsList = new ArrayList<>();
         urlImagesList = new ArrayList<>();
         tagList = new ArrayList<>();
         webURLList = new ArrayList<>();
         typeList = new ArrayList<>();
 
-        //******************************************************************************************
-        /*SQLite QUERY*/
+        // Obtaining content of the events from DB
+        obtainEventsInfoFromDB();
+        EventsListAdapter adapter =new EventsListAdapter(titlesList, descriptionsList, urlImagesList, tagList, typeList, webURLList);
+        recyclerEvents.setAdapter(adapter);
 
-        /*
-        SQLiteProvider sqLiteProvider = new SQLiteProvider();
-        Cursor queryCursor = sqLiteProvider.query(CONTENT_URI, null, null, null, null);
-        Loader<Cursor> cursorLoader = onCreateLoader(0, null);
-        onLoadFinished(cursorLoader, queryCursor);
-        */
+        titlesList = new ArrayList<>();
+        descriptionsList = new ArrayList<>();
+        urlImagesList = new ArrayList<>();
+        tagList = new ArrayList<>();
+        webURLList = new ArrayList<>();
+        typeList = new ArrayList<>();
 
-        //******************************************************************************************
-
+        //Obtaining events from api
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,     // Get list of events
                 url,                    // Url defined in parameters
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("EVENTS RESPONSE: ", response);
+                        Log.i("EVENTS RESPONSE: ", response);
 
                         String eventsString = null;
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             eventsString = jsonObject.getString("events");
-                            Log.e("Prova JSONOBJECT EVENTS: ", eventsString);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -132,46 +124,48 @@ public class EventsFragment extends Fragment implements LoaderManager.LoaderCall
 
                         Event[] events;
 
-                        if (!response.equals(null)) {
-                            Gson gson = new Gson();
-                            Log.e("STRING", eventsString);
-                            events = gson.fromJson(eventsString, Event[].class);
+                        try {
+                            if (!response.equals(null)) {
+                                Gson gson = new Gson();
+                                events = gson.fromJson(eventsString, Event[].class);
 
-                            // *********************
-                            // Show Events on screen
-                            for (Event event : events) {
+                                // Show Events on screen
+                                for (Event event : events) {
 
-                                contentsList.add(event.getDescription());
-                                urlImagesList.add(event.getImageURL());
-                                typeList.add(event.getType());
+                                    descriptionsList.add(event.getDescription());
+                                    urlImagesList.add(event.getImageURL());
+                                    typeList.add(event.getType());
 
-                                if(event.getWebURL() != null && event.getName() != null && event.getTags() != null) {
-                                    webURLList.add(event.getWebURL());
-                                    titlesList.add(event.getName());
-                                    tagList.add(event.getTags());
-                                }else{
-                                    webURLList.add("");
-                                    titlesList.add("");
-                                    tagList.add(null);
+                                    if (event.getWebURL() != null && event.getName() != null && event.getTags() != null) {
+                                        webURLList.add(event.getWebURL());
+                                        titlesList.add(event.getName());
+                                        tagList.add(event.getTags());
+                                    } else {
+                                        webURLList.add("");
+                                        titlesList.add("");
+                                        tagList.add(null);
+                                    }
                                 }
-                            }
-                            EventsListAdapter adapter =
-                                    new EventsListAdapter
-                                            (titlesList, contentsList, urlImagesList, tagList, typeList, webURLList);
-                            recyclerEvents.setAdapter(adapter);
-                            // *********************
 
-                        } else {
-                            Log.e("Your array response: " + response, "Data null");
-                        }
+                                //Inserting the content of events obtained from the api
+                                getActivity().getApplicationContext().getContentResolver().delete(CONTENT_URI_EVENTS, null, null);
+                                insertEventsIntoDB();
+
+                                EventsListAdapter adapter =
+                                        new EventsListAdapter
+                                                (titlesList, descriptionsList, urlImagesList, tagList, typeList, webURLList);
+                                recyclerEvents.setAdapter(adapter);
+
+                            } else {
+                                Log.e("Your array response: " + response, "Data null");
+                            }
+                        }catch (Exception e){}
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Your response: ", "ERROR");
-                        EventsListAdapter adapter = new EventsListAdapter(null, null, null, null, null, null);
-                        recyclerEvents.setAdapter(adapter);
+                        Log.e("Your EVENTS response: ", "ERROR");
                     }
                 }) {
             @Override
@@ -192,18 +186,6 @@ public class EventsFragment extends Fragment implements LoaderManager.LoaderCall
         return view;
     }
 
-    private void insertEvent(String description, String imageURL, String name, String type, String webURL, String tags) {
-        ContentValues values = new ContentValues();
-        values.put(EVENTS_DESCRIPTION, description);
-        values.put(EVENTS_IMAGEURL, imageURL);
-        values.put(EVENTS_NAME, name);
-        values.put(EVENTS_TYPE, type);
-        values.put(EVENTS_WEBURL, webURL);
-        values.put(EVENTS_TAGS, tags);
-
-        Uri contactUri = getActivity().getApplicationContext().getContentResolver().insert(CONTENT_URI, values);
-    }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -213,42 +195,51 @@ public class EventsFragment extends Fragment implements LoaderManager.LoaderCall
         }
     }
 
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        return new CursorLoader(getActivity().getApplicationContext(), CONTENT_URI, null, null, null, null);
-    }
+    public void obtainEventsInfoFromDB() {
+        Cursor cursor = getActivity().getApplicationContext().getContentResolver().query(CONTENT_URI_EVENTS, null, null, null, null);
 
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
-        ArrayList<Event> list = new ArrayList<>();
+        int idColumnIndex = cursor.getColumnIndex(EVENTS_ID);
+        int descriptionColumnIndex = cursor.getColumnIndex(EVENTS_DESCRIPTION);
+        int imageURLColumnIndex = cursor.getColumnIndex(EVENTS_IMAGEURL);
+        int nameColumnIndex = cursor.getColumnIndex(EVENTS_NAME);
+        int typeColumnIndex = cursor.getColumnIndex(EVENTS_TYPE);
+        int webURLColumnIndex = cursor.getColumnIndex(EVENTS_WEBURL);
+        int tagsColumnIndex = cursor.getColumnIndex(EVENTS_TAGS);
 
-        while (cursor.moveToNext()) {
-            int descriptionIndex = cursor.getColumnIndex(EVENTS_DESCRIPTION);
-            int imageURLIndex = cursor.getColumnIndex(EVENTS_IMAGEURL);
-            int nameIndex = cursor.getColumnIndex(EVENTS_NAME);
-            int typeIndex = cursor.getColumnIndex(EVENTS_TYPE);
-            int webURLIndex = cursor.getColumnIndex(EVENTS_WEBURL);
-            int tagsIndex = cursor.getColumnIndex(EVENTS_TAGS);
-
-            String description = cursor.getString(descriptionIndex);
-            String imageURL = cursor.getString(imageURLIndex);
-            String name = cursor.getString(nameIndex);
-            String type = cursor.getString(typeIndex);
-            String webURL = cursor.getString(webURLIndex);
+        while (cursor.moveToNext()){
+            int actualID = cursor.getInt(idColumnIndex);
+            String actualDescription = cursor.getString(descriptionColumnIndex);
+            String actualimageURL = cursor.getString(imageURLColumnIndex);
+            String actualName = cursor.getString(nameColumnIndex);
+            String actualType = cursor.getString(typeColumnIndex);
+            String actualWebURL = cursor.getString(webURLColumnIndex);
+            String auxTags = cursor.getString(tagsColumnIndex);
             Gson gson = new Gson();
-            Tag[] tags = gson.fromJson(cursor.getString(tagsIndex), Tag[].class);
+            Tag[] actualTags = gson.fromJson(auxTags, Tag[].class);
 
-            Event event = new Event(description, imageURL, name, tags, type, webURL);
-            list.add(event);
+            descriptionsList.add(actualDescription);
+            urlImagesList.add(actualimageURL);
+            typeList.add(actualType);
+            webURLList.add(actualWebURL);
+            titlesList.add(actualName);
+            tagList.add(actualTags);
         }
 
-        EventsListAdapter adapter = new EventsListAdapter (list);
-        recyclerEvents.setAdapter(adapter);
+        cursor.close();
     }
 
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        //Not necessary to implement
+    public void insertEventsIntoDB(){
+        ContentValues values = new ContentValues();
+        for (int i = 0; i< descriptionsList.size(); i++){
+            values.put(EVENTS_DESCRIPTION, descriptionsList.get(i));
+            values.put(EVENTS_IMAGEURL, urlImagesList.get(i));
+            values.put(EVENTS_NAME, titlesList.get(i));
+            values.put(EVENTS_TYPE, typeList.get(i));
+            values.put(EVENTS_WEBURL, webURLList.get(i));
+            Gson gson = new Gson();
+            values.put(EVENTS_TAGS, gson.toJson(tagList.get(i)));
+
+            getActivity().getApplicationContext().getContentResolver().insert(CONTENT_URI_EVENTS, values);
+        }
     }
 }
