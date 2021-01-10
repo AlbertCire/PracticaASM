@@ -32,6 +32,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.*;
@@ -150,6 +151,14 @@ public class EventsFragment extends Fragment {
                                 //Inserting the content of events obtained from the api
                                 getActivity().getApplicationContext().getContentResolver().delete(CONTENT_URI_EVENTS, null, null);
                                 insertEventsIntoDB();
+
+                                //Reverse the arrays to show the info ASC
+                                Collections.reverse(titlesList);
+                                Collections.reverse(descriptionsList);
+                                Collections.reverse(urlImagesList);
+                                Collections.reverse(tagList);
+                                Collections.reverse(typeList);
+                                Collections.reverse(webURLList);
 
                                 EventsListAdapter adapter =
                                         new EventsListAdapter
