@@ -8,9 +8,11 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import cat.urv.deim.asm.R;
+import cat.urv.deim.asm.models.Faq;
 
 public class ExpLVAdapter extends BaseExpandableListAdapter {
 
@@ -24,8 +26,21 @@ public class ExpLVAdapter extends BaseExpandableListAdapter {
         this.context = context;
     }
 
+    public ExpLVAdapter(ArrayList<Faq> faqsList, Context context) {
+        this.questionList = new ArrayList<>();
+        this.questionAnswer = new HashMap<>();
+        for(Faq faq : faqsList){
+            this.questionList.add(faq.getTitle());
+            this.questionAnswer.put(faq.getTitle(), faq.getBody());
+        }
+        this.context = context;
+    }
+
     @Override
     public int getGroupCount() {
+        if(questionList == null)
+            return 0;
+
         return questionList.size();
     }
 

@@ -17,6 +17,7 @@ import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.*;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Articles.*;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Calendar.*;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.*;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Faqs.*;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.News.*;
 
 public class SQLiteProvider extends ContentProvider {
@@ -28,6 +29,7 @@ public class SQLiteProvider extends ContentProvider {
     private static final int EVENTS = 3;
     private static final int EVENTS_ID = 4;
     private static final int CALENDAR = 5;
+    private static final int FAQS = 6;
 
     static {
         uriMatcher.addURI(AUTHORITY, PATH_NEWS, NEWS);
@@ -35,6 +37,7 @@ public class SQLiteProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, PATH_EVENTS, EVENTS);
         uriMatcher.addURI(AUTHORITY, PATH_EVENTS + "/#", EVENTS_ID);
         uriMatcher.addURI(AUTHORITY, PATH_CALENDAR, CALENDAR);
+        uriMatcher.addURI(AUTHORITY, PATH_FAQS, FAQS);
     }
 
     private SQLiteDatabase db;
@@ -67,6 +70,9 @@ public class SQLiteProvider extends ContentProvider {
             case CALENDAR:
                 cursor = db.query(TABLE_CALENDAR, projection, selection, null, null, null, null);
                 break;
+            case FAQS:
+                cursor = db.query(TABLE_FAQS, projection, selection, null, null, null, null);
+                break;
             default:
                 throw new IllegalArgumentException("This is an Unknown URI " + uri);
         }
@@ -89,6 +95,8 @@ public class SQLiteProvider extends ContentProvider {
                 return CONTENT_ITEM_TYPE_EVENTS;
             case CALENDAR:
                 return CONTENT_LIST_TYPE_CALENDAR;
+            case FAQS:
+                return CONTENT_LIST_TYPE_FAQS;
             default:
                 throw new IllegalArgumentException("This is an Unknown URI " + uri);
         }
@@ -132,6 +140,14 @@ public class SQLiteProvider extends ContentProvider {
                     return _uri;
                 }
                 throw new SQLException("Insertion Failed for URI :" + uri);
+            case FAQS:
+                id = db.insert(TABLE_FAQS, null, values);
+                if (id > 0) {
+                    Uri _uri = ContentUris.withAppendedId(uri, id);
+                    getContext().getContentResolver().notifyChange(_uri, null);
+                    return _uri;
+                }
+                throw new SQLException("Insertion Failed for URI :" + uri);
 
             default:
                 throw new IllegalArgumentException("Values not valid" + uri);
@@ -159,6 +175,9 @@ public class SQLiteProvider extends ContentProvider {
             case CALENDAR:
                 return db.delete(TABLE_CALENDAR, selection, selectionArgs);
 
+            case FAQS:
+                return db.delete(TABLE_FAQS, selection, selectionArgs);
+
             default:
                 throw new IllegalArgumentException("Deletion is not supported for" + uri);
         }
@@ -185,6 +204,9 @@ public class SQLiteProvider extends ContentProvider {
 
             case CALENDAR:
                 return db.update(TABLE_CALENDAR, values, selection, selectionArgs);
+
+            case FAQS:
+                return db.update(TABLE_FAQS, values, selection, selectionArgs);
 
             default:
                 throw new IllegalArgumentException("Update is not supported for" + uri);

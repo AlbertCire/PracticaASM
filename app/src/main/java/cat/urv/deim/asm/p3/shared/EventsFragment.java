@@ -95,7 +95,7 @@ public class EventsFragment extends Fragment {
 
         // Obtaining content of the events from DB
         obtainEventsInfoFromDB();
-        EventsListAdapter adapter =new EventsListAdapter(titlesList, descriptionsList, urlImagesList, tagList, typeList, webURLList);
+        EventsListAdapter adapter = new EventsListAdapter(titlesList, descriptionsList, urlImagesList, tagList, typeList, webURLList);
         recyclerEvents.setAdapter(adapter);
 
         titlesList = new ArrayList<>();

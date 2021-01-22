@@ -7,11 +7,14 @@ import cat.urv.deim.asm.R;
  */
 import cat.urv.deim.asm.models.Event;
 import cat.urv.deim.asm.models.Faq;
+import cat.urv.deim.asm.models.Tag;
 import cat.urv.deim.asm.p2.common.MainActivity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
@@ -41,12 +44,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.CONTENT_URI_EVENTS;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_DESCRIPTION;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_ID;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_IMAGEURL;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_NAME;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_TAGS;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_TYPE;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_WEBURL;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Faqs.CONTENT_URI_FAQS;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Faqs.FAQS_BODY;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Faqs.FAQS_ID;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Faqs.FAQS_TITLE;
+
 public class FaqsActivity extends AppCompatActivity {
 
     String url;
     String mail;
     String username;
     String accessToken;
+    ExpandableListView expLV;
+    ArrayList<Faq> faqsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +100,12 @@ public class FaqsActivity extends AppCompatActivity {
         */
 
         final Context context = this;
+        expLV = (ExpandableListView) findViewById(R.id.exp_lv);
+
+        // Obtaining content of the events from DB
+        obtainFaqsInfoFromDB();
+        ExpLVAdapter adapter = new ExpLVAdapter(faqsList, context);
+        expLV.setAdapter(adapter);
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,     // Get list of events
@@ -89,7 +113,7 @@ public class FaqsActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e("RESPONSE: ", response);
+                        Log.i("FAQS RESPONSE: ", response);
                         Faq[] faqs;
                         if (!response.equals(null)) {
                             String splitResponse;
@@ -107,17 +131,23 @@ public class FaqsActivity extends AppCompatActivity {
                             // Show Faqs on screen
                             ArrayList<String> questionList = new ArrayList<>();
                             HashMap<String, String> questionAnswer = new HashMap<>();
+
+                            faqsList.clear();
                             for (Faq faq : faqs) {
+                                faqsList.add(faq);
                                 questionList.add(faq.getTitle());
                                 questionAnswer.put(faq.getTitle(), faq.getBody());
                             }
-                            ExpandableListView expLV = (ExpandableListView) findViewById(R.id.exp_lv);
+
+                            //Inserting the content of faqs obtained from the api
+                            getContentResolver().delete(CONTENT_URI_FAQS, null, null);
+                            insertFaqsIntoDB();
+
                             ExpLVAdapter adapter;
                             adapter = new ExpLVAdapter(questionList, questionAnswer, context);
                             expLV.setAdapter(adapter);
                             // *********************
 
-                            Log.e("Your response: ", response);
                         } else {
                             Log.e("Your array response: " + response, "Data null");
                         }
@@ -156,5 +186,31 @@ public class FaqsActivity extends AppCompatActivity {
                         MainActivity.class) );
             }
         });
+    }
+
+    public void obtainFaqsInfoFromDB() {
+        Cursor cursor = getContentResolver().query(CONTENT_URI_FAQS, null, null, null, null);
+
+        int bodyColumnIndex = cursor.getColumnIndex(FAQS_BODY);
+        int titleURLColumnIndex = cursor.getColumnIndex(FAQS_TITLE);
+
+        while (cursor.moveToNext()){
+            String actualBody = cursor.getString(bodyColumnIndex);
+            String actualTitle = cursor.getString(titleURLColumnIndex);
+
+            faqsList.add(new Faq(actualBody, actualTitle));
+        }
+
+        cursor.close();
+    }
+
+    public void insertFaqsIntoDB(){
+        ContentValues values = new ContentValues();
+        for (int i = 0; i< faqsList.size(); i++){
+            values.put(FAQS_BODY, faqsList.get(i).getBody());
+            values.put(FAQS_TITLE, faqsList.get(i).getTitle());
+
+            getContentResolver().insert(CONTENT_URI_FAQS, values);
+        }
     }
 }

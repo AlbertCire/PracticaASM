@@ -8,6 +8,8 @@ import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.*;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Articles.*;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Calendar.*;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.*;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Faqs.SQL_CREATE_FAQS;
+import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Faqs.TABLE_FAQS;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.News.*;
 
 
@@ -23,6 +25,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_ARTICLES);
         db.execSQL(SQL_CREATE_EVENTS);
         db.execSQL(SQL_CREATE_CALENDAR);
+        db.execSQL(SQL_CREATE_FAQS);
     }
 
     @Override
@@ -31,6 +34,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTICLES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CALENDAR);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FAQS);
         onCreate(db);
     }
 }
