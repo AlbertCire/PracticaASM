@@ -90,25 +90,16 @@ public class FaqsActivity extends AppCompatActivity {
             Log.e("Error: ", e.getMessage());
         }
 
-        // Retrieve the data from the JSON files, map each question to its answer, and set
-        // the adapter for the ExpandableListView
-        /*
-        DataProvider dataProvider = DataProvider.getInstance(
-                this.getApplicationContext(),
-                R.raw.faqs,R.raw.news,R.raw.articles,R.raw.events,R.raw.calendar);
-        List<Faq> faqs = dataProvider.getFaqs();
-        */
-
         final Context context = this;
         expLV = (ExpandableListView) findViewById(R.id.exp_lv);
 
-        // Obtaining content of the events from DB
+        // Obtaining content of the faqs from DB
         obtainFaqsInfoFromDB();
         ExpLVAdapter adapter = new ExpLVAdapter(faqsList, context);
         expLV.setAdapter(adapter);
 
         StringRequest stringRequest = new StringRequest(
-                Request.Method.GET,     // Get list of events
+                Request.Method.GET,     // Get list of faqs
                 url,                    // Url defined in parameters
                 new Response.Listener<String>() {
                     @Override
@@ -127,7 +118,6 @@ public class FaqsActivity extends AppCompatActivity {
                             Gson gson = new Gson();
                             faqs = gson.fromJson(faqArray.toString(), Faq[].class);
 
-                            // *********************
                             // Show Faqs on screen
                             ArrayList<String> questionList = new ArrayList<>();
                             HashMap<String, String> questionAnswer = new HashMap<>();
@@ -146,7 +136,6 @@ public class FaqsActivity extends AppCompatActivity {
                             ExpLVAdapter adapter;
                             adapter = new ExpLVAdapter(questionList, questionAnswer, context);
                             expLV.setAdapter(adapter);
-                            // *********************
 
                         } else {
                             Log.e("Your array response: " + response, "Data null");

@@ -38,19 +38,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cat.urv.deim.asm.R;
+import cat.urv.deim.asm.models.Article;
+import cat.urv.deim.asm.models.Calendar;
 import cat.urv.deim.asm.models.New;
 import cat.urv.deim.asm.models.Tag;
 
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Calendar.*;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Articles.*;
-import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.CONTENT_URI_EVENTS;
-import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_DESCRIPTION;
-import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_ID;
-import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_IMAGEURL;
-import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_NAME;
-import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_TAGS;
-import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_TYPE;
-import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.Events.EVENTS_WEBURL;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.News.*;
 import static cat.urv.deim.asm.p3.shared.DatabaseCredentials.*;
 
@@ -58,6 +52,8 @@ public class ExtraActivity extends AppCompatActivity {
     RequestQueue queue;
 
     ArrayList<New> newsList = new ArrayList<>();
+    ArrayList<Article> articlesList = new ArrayList<>();
+    ArrayList<Calendar> calendarList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,11 +166,8 @@ public class ExtraActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Obtain articles from Database
                 try {
-                    Cursor cursor = getContentResolver().query(CONTENT_URI_ARTICLES, null, null, null, null);
-                    //int contentColumnIndex = cursor.getColumnIndex(ARTICLES_CONTENT);
-                    cursor.moveToNext();
-                    //String actualContent = cursor.getString(contentColumnIndex);
-                    //Log.i("INFO DATABASE ARTICLES ", "{" + actualContent + "}");
+                    obtainArticlesInfoFromDB();
+                    Log.i("INFO DATABASE ARTICLES ", "{" + articlesList + "}");
                 }catch (CursorIndexOutOfBoundsException e){
                     Log.i("INFO DATABASE ARTICLES", "There's nothing in the articles table.");
                 }
@@ -186,16 +179,34 @@ public class ExtraActivity extends AppCompatActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                getContentResolver().delete(CONTENT_URI_ARTICLES, null, null);
-                                //insertInfoIntoDB(CONTENT_URI_ARTICLES, ARTICLES_CONTENT, PATH_ARTICLES, response);
-
                                 JSONObject jsonObject = null;
+                                String articlesString = null;
                                 try {
                                     jsonObject = new JSONObject(response);
-                                    Log.i("ARTICLES RESPONSE: ", jsonObject.getString(PATH_ARTICLES));
+                                    articlesString = jsonObject.getString("articles");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
+
+                                Article[] articles = null;
+                                if(!response.equals(null)){
+                                    Gson gson = new Gson();
+                                    articles = gson.fromJson(articlesString, Article[].class);
+                                }
+                                articlesList.clear();
+                                int i = 1;
+                                for(Article item : articles) {
+                                    item.setId(i);
+                                    articlesList.add(item);
+                                    i++;
+                                }
+
+                                //Show articles from API
+                                Log.i("INFO API ARTICLES ", "{" + articlesList + "}");
+
+                                //Update articles table in DB
+                                getContentResolver().delete(CONTENT_URI_ARTICLES, null, null);
+                                insertArticlesIntoDB();
                             }
                         },
                         new Response.ErrorListener() {
@@ -222,11 +233,8 @@ public class ExtraActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Obtain calendar from Database
                 try {
-                    Cursor cursor = getContentResolver().query(CONTENT_URI_CALENDAR, null, null, null, null);
-                    //int contentColumnIndex = cursor.getColumnIndex(CALENDAR_CONTENT);
-                    cursor.moveToNext();
-                    //String actualContent = cursor.getString(contentColumnIndex);
-                    //Log.i("INFO DATABASE CALENDAR ", "{" + actualContent + "}");
+                    obtainCalendarInfoFromDB();
+                    Log.i("INFO DATABASE CALENDAR ", "{" + calendarList + "}");
                 }catch (CursorIndexOutOfBoundsException e){
                     Log.i("INFO DATABASE CALENDAR", "There's nothing in the calendar table.");
                 }
@@ -238,16 +246,34 @@ public class ExtraActivity extends AppCompatActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                getContentResolver().delete(CONTENT_URI_CALENDAR, null, null);
-                                //insertInfoIntoDB(CONTENT_URI_CALENDAR, CALENDAR_CONTENT, PATH_CALENDAR, response);
-
                                 JSONObject jsonObject = null;
+                                String calendarString = null;
                                 try {
                                     jsonObject = new JSONObject(response);
-                                    Log.i("CALENDAR RESPONSE: ", jsonObject.getString(PATH_CALENDAR));
+                                    calendarString = jsonObject.getString("calendar");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
+
+                                Calendar[] calendar = null;
+                                if(!response.equals(null)){
+                                    Gson gson = new Gson();
+                                    calendar = gson.fromJson(calendarString, Calendar[].class);
+                                }
+                                calendarList.clear();
+                                int i = 1;
+                                for(Calendar item : calendar) {
+                                    item.setId(i);
+                                    calendarList.add(item);
+                                    i++;
+                                }
+
+                                //Show calendar from API
+                                Log.i("INFO API CALENDAR ", "{" + calendarList + "}");
+
+                                //Update calendar table in DB
+                                getContentResolver().delete(CONTENT_URI_CALENDAR, null, null);
+                                insertCalendarIntoDB();
                             }
                         },
                         new Response.ErrorListener() {
@@ -329,50 +355,100 @@ public class ExtraActivity extends AppCompatActivity {
     }
 
     public void obtainArticlesInfoFromDB() {
-        Cursor cursor = getContentResolver().query(CONTENT_URI_NEWS, null, null, null, null);
+        Cursor cursor = getContentResolver().query(CONTENT_URI_ARTICLES, null, null, null, null);
 
-        int idColumnIndex = cursor.getColumnIndex(NEWS_ID);
-        int dateColumnIndex = cursor.getColumnIndex(NEWS_DATE);
-        int dateUpdateColumnIndex = cursor.getColumnIndex(NEWS_DATEUPDATE);
-        int imageURLColumnIndex = cursor.getColumnIndex(NEWS_IMAGEURL);
-        int subtitleColumnIndex = cursor.getColumnIndex(NEWS_SUBTITLE);
-        int tagsColumnIndex = cursor.getColumnIndex(NEWS_TAGS);
-        int textColumnIndex = cursor.getColumnIndex(NEWS_TEXT);
-        int titleColumnIndex = cursor.getColumnIndex(NEWS_TITLE);
+        int idColumnIndex = cursor.getColumnIndex(ARTICLES_ID);
+        int abstractTextColumnIndex = cursor.getColumnIndex(ARTICLES_ABSTRACTTEXT);
+        int authorColumnIndex = cursor.getColumnIndex(ARTICLES_AUTHOR);
+        int dateColumnIndex = cursor.getColumnIndex(ARTICLES_DATE);
+        int dateUpdateColumnIndex = cursor.getColumnIndex(ARTICLES_DATEUPDATE);
+        int descriptionColumnIndex = cursor.getColumnIndex(ARTICLES_DESCRIPTION);
+        int imageURLColumnIndex = cursor.getColumnIndex(ARTICLES_IMAGEURL);
+        int tagsColumnIndex = cursor.getColumnIndex(ARTICLES_TAGS);
+        int textColumnIndex = cursor.getColumnIndex(ARTICLES_TEXT);
+        int titleColumnIndex = cursor.getColumnIndex(ARTICLES_TITLE);
 
         while (cursor.moveToNext()){
             int actualID = cursor.getInt(idColumnIndex);
+            String actualAbstractText = cursor.getString(abstractTextColumnIndex);
+            String actualAuthor = cursor.getString(authorColumnIndex);
             String actualDate = cursor.getString(dateColumnIndex);
             String actualDateUpdate = cursor.getString(dateUpdateColumnIndex);
+            String actualDescription = cursor.getString(descriptionColumnIndex);
             String actualImageURL = cursor.getString(imageURLColumnIndex);
-            String actualSubtitle = cursor.getString(subtitleColumnIndex);
             String actualText = cursor.getString(textColumnIndex);
             String actualTitle = cursor.getString(titleColumnIndex);
             String auxTags = cursor.getString(tagsColumnIndex);
             Gson gson = new Gson();
             Tag[] actualTags = gson.fromJson(auxTags, Tag[].class);
 
-            newsList.add(new New(actualID, actualDate, actualDateUpdate, actualImageURL, actualSubtitle, actualTags, actualText, actualTitle));
+            articlesList.add(new Article(actualID, actualAbstractText, actualAuthor, actualDate, actualDateUpdate, actualDescription, actualImageURL, actualTags, actualText, actualTitle));
         }
         cursor.close();
     }
 
     public void insertArticlesIntoDB(){
         ContentValues values = new ContentValues();
-        for (int i = 0; i< newsList.size(); i++){
-            values.put(NEWS_ID, newsList.get(i).getId());
-            values.put(NEWS_DATE, newsList.get(i).getDate());
-            values.put(NEWS_DATEUPDATE, newsList.get(i).getDateUpdate());
-            values.put(NEWS_IMAGEURL, newsList.get(i).getImageURL());
-            values.put(NEWS_SUBTITLE, newsList.get(i).getSubtitle());
-            values.put(NEWS_TEXT, newsList.get(i).getText());
-            values.put(NEWS_TITLE, newsList.get(i).getTitle());
+        for (int i = 0; i< articlesList.size(); i++){
+            values.put(ARTICLES_ID, articlesList.get(i).getId());
+            values.put(ARTICLES_ABSTRACTTEXT, articlesList.get(i).getAbstractText());
+            values.put(ARTICLES_AUTHOR, articlesList.get(i).getAuthor());
+            values.put(ARTICLES_DATE, articlesList.get(i).getDate());
+            values.put(ARTICLES_DATEUPDATE, articlesList.get(i).getDateUpdate());
+            values.put(ARTICLES_DESCRIPTION, articlesList.get(i).getDescription());
+            values.put(ARTICLES_IMAGEURL, articlesList.get(i).getImageURL());
             Gson gson = new Gson();
-            values.put(NEWS_TAGS, gson.toJson(newsList.get(i).getTags()));
+            values.put(ARTICLES_TAGS, gson.toJson(articlesList.get(i).getTags()));
+            values.put(ARTICLES_TEXT, articlesList.get(i).getText());
+            values.put(ARTICLES_TITLE, articlesList.get(i).getTitle());
 
-            getContentResolver().insert(CONTENT_URI_NEWS, values);
+            getContentResolver().insert(CONTENT_URI_ARTICLES, values);
         }
     }
 
+    public void obtainCalendarInfoFromDB() {
+        Cursor cursor = getContentResolver().query(CONTENT_URI_CALENDAR, null, null, null, null);
 
+        int idColumnIndex = cursor.getColumnIndex(CALENDAR_ID);
+        int dateColumnIndex = cursor.getColumnIndex(CALENDAR_DATE);
+        int descriptionColumnIndex = cursor.getColumnIndex(CALENDAR_DESCRIPTION);
+        int hourColumnIndex = cursor.getColumnIndex(CALENDAR_HOUR);
+        int imageURLColumnIndex = cursor.getColumnIndex(CALENDAR_IMAGEURL);
+        int nameColumnIndex = cursor.getColumnIndex(CALENDAR_NAME);
+        int tagsColumnIndex = cursor.getColumnIndex(CALENDAR_TAGS);
+        int venueColumnIndex = cursor.getColumnIndex(CALENDAR_VENUE);
+
+        while (cursor.moveToNext()){
+            int actualID = cursor.getInt(idColumnIndex);
+            String actualDate = cursor.getString(dateColumnIndex);
+            String actualDescription = cursor.getString(descriptionColumnIndex);
+            String actualHour = cursor.getString(hourColumnIndex);
+            String actualImageURL = cursor.getString(imageURLColumnIndex);
+            String actualName = cursor.getString(nameColumnIndex);
+            String actualVenue = cursor.getString(venueColumnIndex);
+            String auxTags = cursor.getString(tagsColumnIndex);
+            Gson gson = new Gson();
+            Tag[] actualTags = gson.fromJson(auxTags, Tag[].class);
+
+            calendarList.add(new Calendar(actualID, actualDate, actualDescription, actualHour, actualImageURL, actualName, actualTags, actualVenue));
+        }
+        cursor.close();
+    }
+
+    public void insertCalendarIntoDB(){
+        ContentValues values = new ContentValues();
+        for (int i = 0; i< calendarList.size(); i++){
+            values.put(CALENDAR_ID, calendarList.get(i).getId());
+            values.put(CALENDAR_DATE, calendarList.get(i).getDate());
+            values.put(CALENDAR_DESCRIPTION, calendarList.get(i).getDescription());
+            values.put(CALENDAR_HOUR, calendarList.get(i).getHour());
+            values.put(CALENDAR_IMAGEURL, calendarList.get(i).getImageURL());
+            values.put(CALENDAR_NAME, calendarList.get(i).getName());
+            Gson gson = new Gson();
+            values.put(CALENDAR_TAGS, gson.toJson(calendarList.get(i).getTags()));
+            values.put(CALENDAR_VENUE, calendarList.get(i).getVenue());
+
+            getContentResolver().insert(CONTENT_URI_CALENDAR, values);
+        }
+    }
 }

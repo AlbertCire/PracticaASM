@@ -26,7 +26,6 @@ import cat.urv.deim.asm.libraries.commanagerdc.providers.DataProvider;
 
 public class EventDetailActivity extends Activity {
 
-    private int eventIndex;             // The index of the concrete event we want from JSON
     private TextView eventTitle;        // In the JSON, it corresponds to the attribute "name"
     private ImageView eventImage;  // The JSON gives an URL to the actual image resource
     private TextView eventTags;     // Or "tags"

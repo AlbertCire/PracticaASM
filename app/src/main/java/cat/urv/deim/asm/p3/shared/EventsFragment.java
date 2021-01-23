@@ -207,7 +207,6 @@ public class EventsFragment extends Fragment {
     public void obtainEventsInfoFromDB() {
         Cursor cursor = getActivity().getApplicationContext().getContentResolver().query(CONTENT_URI_EVENTS, null, null, null, null);
 
-        int idColumnIndex = cursor.getColumnIndex(EVENTS_ID);
         int descriptionColumnIndex = cursor.getColumnIndex(EVENTS_DESCRIPTION);
         int imageURLColumnIndex = cursor.getColumnIndex(EVENTS_IMAGEURL);
         int nameColumnIndex = cursor.getColumnIndex(EVENTS_NAME);
@@ -216,9 +215,8 @@ public class EventsFragment extends Fragment {
         int tagsColumnIndex = cursor.getColumnIndex(EVENTS_TAGS);
 
         while (cursor.moveToNext()){
-            int actualID = cursor.getInt(idColumnIndex);
             String actualDescription = cursor.getString(descriptionColumnIndex);
-            String actualimageURL = cursor.getString(imageURLColumnIndex);
+            String actualImageURL = cursor.getString(imageURLColumnIndex);
             String actualName = cursor.getString(nameColumnIndex);
             String actualType = cursor.getString(typeColumnIndex);
             String actualWebURL = cursor.getString(webURLColumnIndex);
@@ -227,7 +225,7 @@ public class EventsFragment extends Fragment {
             Tag[] actualTags = gson.fromJson(auxTags, Tag[].class);
 
             descriptionsList.add(actualDescription);
-            urlImagesList.add(actualimageURL);
+            urlImagesList.add(actualImageURL);
             typeList.add(actualType);
             webURLList.add(actualWebURL);
             titlesList.add(actualName);
